@@ -1,0 +1,42 @@
+#map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+body { 
+	margin: 0; 
+	padding: 0; 
+}
+
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+
+#title {
+  top: 0;
+  left: 20px;
+  height: 120px;
+  margin-top: 20px;
+  width: 250px;
+}
+
+h2 {
+  margin: 10px;
+  font-size: 1.0em;
+  text-align: left;
+}
+
+p {
+  margin: 10px;
+  font-size: 1em;
+  text-align: left;
+}

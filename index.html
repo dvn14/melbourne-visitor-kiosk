@@ -1,26 +1,61 @@
 <!DOCTYPE HTML>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+	<meta charset="utf-8" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+  
   </head>
+  
+
+  
   <body>
 
     <div id="map"></div>
+	<div class="map-overlay" id="title">
+		<h2>POI Info</h2>
+		<div id="info">
+			<p>Hover over a POI!</p>
+		</div>
+	</div>
     
     <script>
-      mapboxgl.accessToken = 'pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg';
-      var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/penguinc2h6/ckfus8d6g5z0q19k2db7mkxui/draft'
-      });
+		mapboxgl.accessToken = 'pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg';
+
+		var bounds = [ // City of Melbourne's bounds
+				[-37.854428, 144.897845], // Southwest coordinates
+				[-37.776493, 145.019147] // Northeast coordinates
+			];
 
 
-      });
+		var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/penguinc2h6/ckfus8d6g5z0q19k2db7mkxui/draft',
+			//center: [-37.814,144.961],
+			//zoom: 12,
+			//maxBounds: bounds // Sets bounds as max
+		});
 
-      map.addControl(new mapboxgl.NavigationControl());
+		map.addControl(new mapboxgl.NavigationControl());
+		
+		
+		// MOUSE MOVE EVENTS
+		map.on('mousemove', function(e) {
+			<!-- let POIinfo = map.queryRenderedFeatures(e.point, { -->
+				<!-- layers: ['xxx'] -->
+			<!-- }); -->
+
+			<!-- if (POIinfo.length > 0) { -->
+				<!-- document.getElementById('info').innerHTML =  -->
+					<!-- '<p>' + POIinfo[0].properties.status + -->
+					<!-- '<p><em>' + POIinfo[0].properties.address + '</em></p>' + -->
+					<!-- '<p>Number of floors: <em>' + POIinfo[0].properties.num_floors + '</em></p>' ; -->
+			<!-- } else { -->
+				<!-- document.getElementById('info').innerHTML = '<p>Hover over a shaded building for details.</p>'; -->
+			<!-- } -->
+		});
+		
     </script>
 
   </body>
