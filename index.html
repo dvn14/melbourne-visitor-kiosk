@@ -41,19 +41,29 @@
 		
 		
 		// MOUSE MOVE EVENTS
-		map.on('mousemove', function(e) {
-			<!-- let POIinfo = map.queryRenderedFeatures(e.point, { -->
-				<!-- layers: ['xxx'] -->
-			<!-- }); -->
+		// map.on('mousemove', function(e) {
+		// 	<!-- let POIinfo = map.queryRenderedFeatures(e.point, { -->
+		// 		<!-- layers: ['xxx'] -->
+		// 	<!-- }); -->
 
-			<!-- if (POIinfo.length > 0) { -->
-				<!-- document.getElementById('info').innerHTML =  -->
-					<!-- '<p>' + POIinfo[0].properties.status + -->
-					<!-- '<p><em>' + POIinfo[0].properties.address + '</em></p>' + -->
-					<!-- '<p>Number of floors: <em>' + POIinfo[0].properties.num_floors + '</em></p>' ; -->
-			<!-- } else { -->
-				<!-- document.getElementById('info').innerHTML = '<p>Hover over a shaded building for details.</p>'; -->
-			<!-- } -->
+		// 	<!-- if (POIinfo.length > 0) { -->
+		// 		<!-- document.getElementById('info').innerHTML =  -->
+		// 			<!-- '<p>' + POIinfo[0].properties.status + -->
+		// 			<!-- '<p><em>' + POIinfo[0].properties.address + '</em></p>' + -->
+		// 			<!-- '<p>Number of floors: <em>' + POIinfo[0].properties.num_floors + '</em></p>' ; -->
+		// 	<!-- } else { -->
+		// 		<!-- document.getElementById('info').innerHTML = '<p>Hover over a shaded building for details.</p>'; -->
+		// 	<!-- } -->
+		// });
+		
+		//pop-up
+		map.on('click', 'development-activity-model-fo-98d3t5', function(e) {
+
+			new mapboxgl.Popup()
+			// the script in step 3 below must go in here
+			.setLngLat(e.lngLat)
+  			.setHTML(e.features[0].properties.status)
+  			.addTo(map)
 		});
 		
     </script>

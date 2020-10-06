@@ -40,3 +40,11 @@ p {
   font-size: 1em;
   text-align: left;
 }
+
+.mapboxgl-popup {
+  max-width: 200px;
+}
+.mapboxgl-popup-content {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
