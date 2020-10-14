@@ -6,177 +6,153 @@ style: mapbox://styles/penguinc2h6/ckfus8d6g5z0q19k2db7mkxui/draft
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2aW52aW51biIsImEiOiJja2VrNHRla3kwZDkyMnl0Nng4Nno1cGJmIn0.pAJqAvlrWzR-YyBY9YCYIg';
 var map = new mapboxgl.Map({
   container: 'map',
-  style: 'mapbox://styles/devinvinun/ckeu5g2kn9rrt19o5e99zzy70',
+  style: 'mapbox://styles/devinvinun/ckg8yyuy50hn519nju5tthh8i',
   center: [144.96, -37.81],
   zoom: 12
 });
 
 map.on('load', function() {
-  var statusNames = ['Cinema', 'Retail', 'Art Gallery/Museum', 'Aquarium'];
-  var statusIconCodes = ['\uf03d', '\uf07a', '\uf19c', '\uf1b0'];
-  var statusIcons = ['cinema', 'grocery', 'town-hall', 'veterinary']
-  for (i = 0; i < statusNames.length; i++) {
-    var statusName = statusNames[i];
-    var statusIconCode = statusIconCodes[i];
-    var statusIcon = statusIcons[i];
+  var layerNames = ['poi', 'rest', 'tram'];
+  var layerUrls = ['mapbox://penguinc2h6.7m71ym0m', 'mapbox://penguinc2h6.d31bqmxn', 'mapbox://penguinc2h6.3hwm8bk2'];
+  var layerSources = ['POI-08he71', 'InfoVisual-17q3aw', 'TramRoute-3sb9xp'];
+  var buttonColors = ['#3887be', '#33a02c', '#e31a1c'];
+  var layerTypes = ['symbol', 'symbol', 'line'];
+  var layerAttrs = ['Sub_Theme', 'Industry__', 'OBJECTID'];
 
-    map.addLayer({
-      id: statusName,
-      type: 'symbol',
-      source: {
-        type: 'vector',
-        url: 'mapbox://penguinc2h6.7m71ym0m'
-      },
-      'source-layer': 'POI-08he71',
-      'layout': {
-        'icon-allow-overlap': true,
-        'icon-image': ['concat', statusIcon, '-15']
-      },
-      'filter': ['==', 'Sub_Theme', statusName]
-    });
+  var poiNames = ['Cinema', 'Retail', 'Art Gallery/Museum', 'Aquarium'];
+  var poiIconCodes = ['\uf03d', '\uf07a', '\uf19c', '\uf1b0'];
+  var poiIcons = ['cinema', 'grocery', 'town-hall', 'veterinary'];
+  var poiNames_out = ['Cinema', 'Shopping', 'Museum/Art Gallery', 'Aquarium'];
+  var poiOverlap = [true, true, true, true]
 
-    // button
-    var link = document.createElement('a');
-    link.href = '#';
-    link.className = 'active';
-    link.textContent = statusName;
-    link.setAttribute('symbol', statusIconCode);
-    link.setAttribute('active_colour', '#1f78b4');
-    if (link.className === 'active') {
-      link.style.backgroundColor = "#3887be";
+  var restNames = ['Cafes and Restaurants', 'Pubs, Taverns and Bars', 'Accommodation'];
+  var restNames_out = ['Cafe/Restaurant', 'Bar', 'Hotel'];
+  var restIconCodes = ['\uf0f5', '\uf000', '\uf236'];
+  var restIcons = ['restaurant', 'bar', 'lodging']
+  var restOverlap = [false, false, false]
+
+  var statusNames, statusIconCodes, statusIcons, statusOutput, cap, statusNames_out, statusOverlap;
+
+  for (i = 0; i < layerNames.length; i++) {
+    var layerName = layerNames[i];
+    var layerUrl = layerUrls[i];
+    var layerSource = layerSources[i];
+    var buttonColor = buttonColors[i];
+    var layerType = layerTypes[i];
+    var layerAttr = layerAttrs[i];
+    switch (layerName) {
+      case 'poi':
+        statusNames = poiNames;
+        statusNames_out = poiNames_out;
+        statusIconCodes = poiIconCodes;
+        statusIcons = poiIcons;
+        statusOutput = poiNames_out;
+        statusOverlap = poiOverlap;
+        cap = statusNames.length;
+        break;
+      case 'rest':
+        statusNames = restNames;
+        statusNames_out = restNames_out;
+        statusIconCodes = restIconCodes;
+        statusIcons = restIcons;
+        statusOutput = restNames_out;
+        statusOverlap = restOverlap;
+        cap = statusNames.length;
+        break;
+      case 'tram':
+        cap = 1;
     }
 
-    var layers = document.getElementById('button');
-    layers.appendChild(link);
+    for (j = 0; j < cap; j++) {
+      var statusName, statusIconCode, statusIcon, statusName_out, statuslap;
+      if (layerName === 'tram') {
+        statusName = "Tram Routes";
+        statusIconCode = '\uf238';
+        statusName_out = statusName;
 
-    link.onclick = function(e) {
-      let clickedLayer = this.textContent;
-      e.preventDefault();
-      e.stopPropagation();
-
-      var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-      if (visibility !== 'none') {
-        map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-        this.className = '';
-        this.style.backgroundColor = "#fff";
+        map.addLayer({
+          id: statusName_out,
+          type: 'line',
+          source: {
+            type: 'vector',
+            url: layerUrl
+          },
+          'source-layer': layerSource,
+          'paint': {
+            'line-color': '#F7455D',
+            'line-width': 2
+          },
+          'filter': ['==', 'RTPATHDESC', 'LR006_1_065']
+        });
       } else {
-        this.className = 'active';
-        map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-        this.style.backgroundColor = "#3887be";
+        statusName = statusNames[j];
+        statusIconCode = statusIconCodes[j];
+        statusIcon = statusIcons[j];
+        statusName_out = statusNames_out[j];
+        statuslap = statusOverlap[j]
+
+        map.addLayer({
+          id: statusName_out,
+          type: 'symbol',
+          source: {
+            type: 'vector',
+            url: layerUrl
+          },
+          'source-layer': layerSource,
+          'layout': {
+            'icon-allow-overlap': statuslap,
+            'icon-image': ['concat', statusIcon, '-15']
+          },
+          'filter': ['==', layerAttr, statusName]
+        });
       }
-    };
-  }
 
-  // restaurant and hotels
-  var itemNames = ['Cafes and Restaurants', 'Pubs, Taverns and Bars', 'Bakery Product Manufacturing (Non-factory based)', 'Accommodation'];
-  var itemNames_out = ['Cafe/Restaurant', 'Bar', 'Bakery', 'Hotel'];
-  var itemIconCodes = ['\uf0f5', '\uf000', '\uf1fd', '\uf236'];
-  var itemIcons = ['restaurant', 'bar', 'bakery', 'lodging']
-  for (i = 0; i < itemNames.length; i++) {
-    var itemName = itemNames[i];
-    var itemIconCode = itemIconCodes[i];
-    var itemIcon = itemIcons[i];
-    var itemOut = itemNames_out[i]
+      // button
+      var link = document.createElement('a');
+      link.href = '#';
+      link.className = 'active';
+      link.textContent = statusName_out;
+      link.setAttribute('symbol', statusIconCode);
+      if (link.className === 'active') {
+        link.style.backgroundColor = buttonColor;
+      }
+      link.defaultColor = buttonColor;
 
-    map.addLayer({
-      id: itemOut,
-      type: 'symbol',
-      source: {
-        type: 'vector',
-        url: 'mapbox://penguinc2h6.d31bqmxn'
-      },
-      'source-layer': 'InfoVisual-17q3aw',
-      'layout': {
-        'icon-allow-overlap': true,
-        'icon-image': ['concat', itemIcon, '-15']
-      },
-      'filter': ['==', 'Industry__', itemName]
-    });
+      var layers = document.getElementById('button');
+      layers.appendChild(link);
 
-    // button
-    var link = document.createElement('a');
-    link.href = '#';
-    link.className = 'active';
-    link.textContent = itemOut;
-    link.setAttribute('symbol', itemIconCode);
-    if (link.className === 'active') {
-      link.style.backgroundColor = "#33a02c";
+      link.onclick = function(e) {
+        let clickedLayer = this.textContent;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+        if (visibility !== 'none') {
+          map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+          this.className = '';
+          this.style.backgroundColor = "#fff";
+        } else {
+          this.className = 'active';
+          map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+          this.style.backgroundColor = this.defaultColor;
+        }
+      };
     }
-
-    var layers = document.getElementById('button');
-    layers.appendChild(link);
-
-    link.onclick = function(e) {
-      let clickedLayer = this.textContent;
-      e.preventDefault();
-      e.stopPropagation();
-
-      var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-      if (visibility !== 'none') {
-        map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-        this.className = '';
-        this.style.backgroundColor = "#fff";
-      } else {
-        this.className = 'active';
-        map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-        this.style.backgroundColor = "#33a02c";
-      }
-    };
-  }
-
-  // tram lines
-  for (i = 1; i < 85; i++) {
-    var itemName = "tramRoute" + i.toString();
-
-    map.addLayer({
-      id: itemName,
-      type: 'line',
-      source: {
-        type: 'vector',
-        url: 'mapbox://penguinc2h6.3hwm8bk2'
-      },
-      'source-layer': 'TramRoute-3sb9xp',
-      'paint': {
-        'line-color': '#F7455D',
-        'line-width': 3
-      },
-      'filter': ['==', 'OBJECTID', i]
-    });
-
-    // button
-    var link = document.createElement('a');
-    link.href = '#';
-    link.className = 'active';
-    link.textContent = itemName;
-    link.setAttribute('symbol', '\uf238');
-    if (link.className === 'active') {
-      link.style.backgroundColor = "#e31a1c";
-    }
-
-    var layers = document.getElementById('button');
-    layers.appendChild(link);
-
-    link.onclick = function(e) {
-      let clickedLayer = this.textContent;
-      e.preventDefault();
-      e.stopPropagation();
-
-      var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-      if (visibility !== 'none') {
-        map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-        this.className = '';
-        this.style.backgroundColor = "#fff";
-      } else {
-        this.className = 'active';
-        map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-        this.style.backgroundColor = "#e31a1c";
-      }
-    };
   }
 });
 
 map.addControl(new mapboxgl.NavigationControl());
 
+/*
+map.on('click', 'InfoVisual-17q3aw', function(e) {
+
+  new mapboxgl.Popup()
+    // the script in step 3 below must go in here
+    .setLngLat(e.lngLat)
+    .setHTML(e.features[0].properties.status)
+    .addTo(map)
+});
+*/
 /*
 <div class="map-overlay" id="title">
   <h2>Building Development Status</h2>
