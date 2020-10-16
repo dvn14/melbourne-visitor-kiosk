@@ -11,15 +11,108 @@
 
   
   <body>
-
-    <div id="map"></div>
+	<!-- Mapbox Direction Panel -->
+	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+	<link
+		rel="stylesheet"
+		href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
+		type="text/css"
+	/>
+    
+	
+	<!-- Mapbox Map Panel -->
+	<div id="map"></div>
+	
+	
+	<!-- Top Filter Menu -->
 	<div class="map-overlay" id="title">
-		<h2>POI Info</h2>
-		<div id="info">
-			<p>Hover over a POI!</p>
-		</div>
+		<!-- Title and Greeting -->
+		<p> 
+			<font style = "font-weight:bold"> Welcome to Melbourne, Mates!</font> 
+			<font style = "font-size:13px">You are at Southern Cross station</font>
+		</p>
+		
+		<!-- Filter Menu -->
+		<table style="margin-left:10px; margin-right:10px;font-size:13px">
+			<tr>
+				<td style="width: 24%;">
+					<div id="filter01">
+						<img src="img/map-marker-red.png" style="height:12px;">
+						<label>Attraction:</label>
+						<select id="attraction" style="width: 100%;">
+							<option value="topattraction">Top attraction</option>
+							<option value="museum">Museum & art gallery</option>
+							<option value="history">History & heritage</option>
+							<option value="shopping">Shopping centers</option>
+							<option value="sight">Sight & landmarks</option>
+							<option value="patks">Parks & gardens</option>
+							<option value="visitorcentre">Visitor information centers</option>
+
+						</select>
+					</div>
+				</td>
+				<td style="width: 24%;">
+					<div id="filter02">
+						<img src="img/map-marker-orange.png" style="height:12px;">
+						<label>Eateries & accommodation:</label>
+						<select id="eateries" style="width: 100%;">
+							<option value="restaurant">Restaurant</option>
+							<option value="pub">Pubs</option>
+							<option value="cafe">Cafes</option>
+							<option value="hotel">Hotels & lodges</option>
+						</select>
+					</div>
+				</td>
+				<td style="width: 24%;">
+					<div id="filter03">
+						<img src="img/map-marker-blue.png" style="height:12px;">
+						<label>Public transportation:</label>
+						<select id="transportation" style="width: 100%;">
+							<option value="citycircleroute">City circle tram routes</option>
+							<option value="tramstops">Tram stops</option>
+							<option value="trainstations">Train stations</option>
+							<option value="taxiranks">Taxi Ranks</option>
+						</select>
+					</div>
+				</td>
+				<td style="width: 24%;">
+					<div id="filter04">
+						<img src="img/map-marker-green.png" style="height:12px;">
+						<label>Public facilities:</label>
+						<select id="facility" style="width: 100%;">
+							<option value="toilets">Toilets</option>
+							<option value="policestations">Police stations</option>
+							<option value="hospitals">Hospitals</option>
+						</select>
+					</div>
+				</td>
+				<td style="width: 4%; vertical-align:bottom">
+					<button>Reset</button>
+				</td>
+			</tr>
+		</table>	
 	</div>
     
+	
+	<div class="pop-up-info" style="top:200px; left:800px; width:200px; font-size:12px; padding:10px">
+		Shrine of Remembrance<br>
+		<img src="img/shrine-of-remembrance.jpg" style="width:200px;"><br>
+		<img src="img/4-star-rating.png" style="height:12px;"><br>
+		Landmarks & Historical Buildings<br>
+		Open everyday 10:00 AM - 5:00 PM<br>
+		St Kilda Rd<br>
+		Melbourne, Victoria<br>
+		<a href="https://shrine.org.au">shrine.org.au</a><br>
+		+61 3 9661 8100
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
     <script>
 		mapboxgl.accessToken = 'pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg';
 
@@ -32,7 +125,7 @@
 		var map = new mapboxgl.Map({
 			container: 'map',
 			style: 'mapbox://styles/penguinc2h6/ckfus8d6g5z0q19k2db7mkxui/draft',
-			//center: [-37.814,144.961],
+			//center: [-37.813470,144.963691],
 			//zoom: 12,
 			//maxBounds: bounds // Sets bounds as max
 		});
@@ -40,20 +133,14 @@
 		map.addControl(new mapboxgl.NavigationControl());
 		
 		
-		// MOUSE MOVE EVENTS
-		map.on('mousemove', function(e) {
-			<!-- let POIinfo = map.queryRenderedFeatures(e.point, { -->
-				<!-- layers: ['xxx'] -->
-			<!-- }); -->
+		map.on('load', function() {
+		  var directions = new MapboxDirections({
+			accessToken: mapboxgl.accessToken
+		  });
+		  map.addControl(directions, 'top-left');
 
-			<!-- if (POIinfo.length > 0) { -->
-				<!-- document.getElementById('info').innerHTML =  -->
-					<!-- '<p>' + POIinfo[0].properties.status + -->
-					<!-- '<p><em>' + POIinfo[0].properties.address + '</em></p>' + -->
-					<!-- '<p>Number of floors: <em>' + POIinfo[0].properties.num_floors + '</em></p>' ; -->
-			<!-- } else { -->
-				<!-- document.getElementById('info').innerHTML = '<p>Hover over a shaded building for details.</p>'; -->
-			<!-- } -->
+		  directions.setOrigin('Bourke Street Mall, Melbourne VIC');
+		  <!-- directions.setDestination('East York Avenue, Toronto'); -->
 		});
 		
     </script>

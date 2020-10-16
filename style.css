@@ -12,8 +12,6 @@ body {
 
 .map-overlay {
   position: absolute;
-  bottom: 0;
-  right: 0;
   background: rgba(255, 255, 255, 0.8);
   margin-right: 20px;
   font-family: Arial, sans-serif;
@@ -21,22 +19,44 @@ body {
   border-radius: 3px;
 }
 
+.pop-up-info {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 10px;
+}
+
 #title {
   top: 0;
   left: 20px;
-  height: 120px;
-  margin-top: 20px;
-  width: 250px;
+  height: 80px;
+  margin-top: 10px;
+  width: 92%;
 }
 
 h2 {
   margin: 10px;
+  margin-bottom: 3px;
   font-size: 1.0em;
   text-align: left;
 }
 
 p {
   margin: 10px;
+  margin-bottom: 3px;
   font-size: 1em;
   text-align: left;
 }
+
+.mapbox-directions-component{
+	top:90px;
+	left:15px;
+} 
+
+/* .mapbox-directions-instructions, */
+/* .mapbox-directions-instructions-wrapper, */
+/* .mapbox-directions{ */
+	/* top:300px; */
+/* }  */
+
