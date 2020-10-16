@@ -14,59 +14,243 @@
 
     <div id="map"></div>
 	<div class="map-overlay" id="title">
-		<h2>POI Info</h2>
+		<h2>Welcome to Melbourne</h2>
 		<div id="info">
 			<p>Hover over a POI!</p>
 		</div>
 	</div>
-    
+
+	<nav id="button"></nav>
+	
     <script>
-		mapboxgl.accessToken = 'pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg';
+		// mapboxgl.accessToken = 'pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg';
 
-		var bounds = [ // City of Melbourne's bounds
-				[-37.854428, 144.897845], // Southwest coordinates
-				[-37.776493, 145.019147] // Northeast coordinates
-			];
+		// var bounds = [ // City of Melbourne's bounds
+		// 		[-37.854428, 144.897845], // Southwest coordinates
+		// 		[-37.776493, 145.019147] // Northeast coordinates
+		// 	];
 
 
+		// var map = new mapboxgl.Map({
+		// 	container: 'map',
+		// 	style: 'mapbox://styles/penguinc2h6/ckfus8d6g5z0q19k2db7mkxui/draft',
+		// 	//center: [-37.814,144.961],
+		// 	//zoom: 12,
+		// 	//maxBounds: bounds // Sets bounds as max
+		// });
+		
+		/*
+token: pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg
+style: mapbox://styles/penguinc2h6/ckfus8d6g5z0q19k2db7mkxui/draft
+*/
+
+		mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2aW52aW51biIsImEiOiJja2VrNHRla3kwZDkyMnl0Nng4Nno1cGJmIn0.pAJqAvlrWzR-YyBY9YCYIg';
 		var map = new mapboxgl.Map({
-			container: 'map',
-			style: 'mapbox://styles/penguinc2h6/ckfus8d6g5z0q19k2db7mkxui/draft',
-			//center: [-37.814,144.961],
-			//zoom: 12,
-			//maxBounds: bounds // Sets bounds as max
+		container: 'map',
+		style: 'mapbox://styles/devinvinun/ckg8yyuy50hn519nju5tthh8i',
+		center: [144.96, -37.81],
+		zoom: 12
+		});
+
+		map.on('load', function() {
+			var layerNames = ['poi', 'rest', 'tram'];
+			var layerUrls = ['mapbox://penguinc2h6.7m71ym0m', 'mapbox://penguinc2h6.d31bqmxn', 'mapbox://penguinc2h6.3hwm8bk2'];
+			var layerSources = ['POI-08he71', 'InfoVisual-17q3aw', 'TramRoute-3sb9xp'];
+			var buttonColors = ['#3887be', '#33a02c', '#e31a1c'];
+			var layerTypes = ['symbol', 'symbol', 'line'];
+			var layerAttrs = ['Sub_Theme', 'Industry__', 'OBJECTID'];
+
+			var poiNames = ['Cinema', 'Retail', 'Art Gallery/Museum', 'Aquarium'];
+			var poiIconCodes = ['\uf03d', '\uf07a', '\uf19c', '\uf1b0'];
+			var poiIcons = ['cinema', 'grocery', 'town-hall', 'veterinary'];
+			var poiNames_out = ['Cinema', 'Shopping', 'Museum/Art Gallery', 'Aquarium'];
+			var poiOverlap = [true, true, true, true]
+
+			var restNames = ['Cafes and Restaurants', 'Pubs, Taverns and Bars', 'Accommodation'];
+			var restNames_out = ['Cafe/Restaurant', 'Bar', 'Hotel'];
+			var restIconCodes = ['\uf0f5', '\uf000', '\uf236'];
+			var restIcons = ['restaurant', 'bar', 'lodging']
+			var restOverlap = [false, false, false]
+
+			var statusNames, statusIconCodes, statusIcons, statusOutput, cap, statusNames_out, statusOverlap;
+
+			for (i = 0; i < layerNames.length; i++) {
+				var layerName = layerNames[i];
+				var layerUrl = layerUrls[i];
+				var layerSource = layerSources[i];
+				var buttonColor = buttonColors[i];
+				var layerType = layerTypes[i];
+				var layerAttr = layerAttrs[i];
+				switch (layerName) {
+				case 'poi':
+					statusNames = poiNames;
+					statusNames_out = poiNames_out;
+					statusIconCodes = poiIconCodes;
+					statusIcons = poiIcons;
+					statusOutput = poiNames_out;
+					statusOverlap = poiOverlap;
+					cap = statusNames.length;
+					break;
+				case 'rest':
+					statusNames = restNames;
+					statusNames_out = restNames_out;
+					statusIconCodes = restIconCodes;
+					statusIcons = restIcons;
+					statusOutput = restNames_out;
+					statusOverlap = restOverlap;
+					cap = statusNames.length;
+					break;
+				case 'tram':
+					cap = 1;
+				}
+
+				for (j = 0; j < cap; j++) {
+					var statusName, statusIconCode, statusIcon, statusName_out, statuslap;
+					if (layerName === 'tram') {
+						statusName = "Tram Routes";
+						statusIconCode = '\uf238';
+						statusName_out = statusName;
+
+						map.addLayer({
+						id: statusName_out,
+						type: 'line',
+						source: {
+							type: 'vector',
+							url: layerUrl
+						},
+						'source-layer': layerSource,
+						'paint': {
+							'line-color': '#F7455D',
+							'line-width': 2
+						},
+						'filter': ['==', 'RTPATHDESC', 'LR006_1_065']
+						});
+						map.on('click', statusName_out, function(e) {
+							// console.log('Hellow World!');
+							console.log(e.features[0]);
+							
+							// var str = e.features[0].prpperties;
+							// console.log(str.status);
+							// var str1 = str.address;
+							// console.log(str);
+							
+							new mapboxgl.Popup()
+							// the script in step 3 below must go in here
+							.setLngLat(e.lngLat)
+							.setHTML(e.features[0].properties.Street_add+' <br/>'+'(' + e.features[0].properties.Seating_ty + ')')
+							.addTo(map)
+						});
+					} else {
+						statusName = statusNames[j];
+						statusIconCode = statusIconCodes[j];
+						statusIcon = statusIcons[j];
+						statusName_out = statusNames_out[j];
+						statuslap = statusOverlap[j]
+
+						map.addLayer({
+						id: statusName_out,
+						type: 'symbol',
+						source: {
+							type: 'vector',
+							url: layerUrl
+						},
+						'source-layer': layerSource,
+						'layout': {
+							'icon-allow-overlap': statuslap,
+							'icon-image': ['concat', statusIcon, '-15']
+						},
+						'filter': ['==', layerAttr, statusName]
+						});
+						map.on('click', statusName_out, function(e) {
+							if(e.features[0].sourceLayer == 'InfoVisual-17q3aw'){
+								console.log(e.features[0]);
+								new mapboxgl.Popup()
+								// the script in step 3 below must go in here
+								.setLngLat(e.lngLat)
+								.setHTML('<p>Name: </p>'+e.features[0].properties.Trading_na+
+								'<p>Address: </p>'+e.features[0].properties.Street_add+
+								'<p>Seat Type: </p>'+e.features[0].properties.Seating_ty)
+								.addTo(map)
+							}
+							else{
+								console.log(e.features[0])
+								new mapboxgl.Popup()
+								// the script in step 3 below must go in here
+								.setLngLat(e.lngLat)
+								// .setHTML(e.features[0].properties.Street_add+' <br/>'+e.features[0].properties.Seating_ty)
+								.setHTML('<p>Name: </p>'+e.features[0].properties.Feature_Na+
+								'<p>Theme: </p>'+e.features[0].properties.Theme+
+								'<p>Sub_Theme: </p>'+e.features[0].properties.Sub_Theme)
+								.addTo(map)
+							}
+							
+						});
+					}
+
+					// button
+					var link = document.createElement('a');
+					link.href = '#';
+					link.className = 'active';
+					link.textContent = statusName_out;
+					link.setAttribute('symbol', statusIconCode);
+					if (link.className === 'active') {
+						link.style.backgroundColor = buttonColor;
+					}
+					link.defaultColor = buttonColor;
+
+					var layers = document.getElementById('button');
+					layers.appendChild(link);
+
+					link.onclick = function(e) {
+						let clickedLayer = this.textContent;
+						e.preventDefault();
+						e.stopPropagation();
+
+						var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+						if (visibility !== 'none') {
+						map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+						this.className = '';
+						this.style.backgroundColor = "#fff";
+						} else {
+						this.className = 'active';
+						map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+						this.style.backgroundColor = this.defaultColor;
+						}
+					}
+				}
+			}
+			//pop-up
+
+			// map.on('click', statusName_out, function(e) {
+			// 	// console.log('Hellow World!');
+			// 	if(layerSource == 'InfoVisual-17q3aw'){
+			// 		console.log(e.features[0]);
+			// 		new mapboxgl.Popup()
+			// 		// the script in step 3 below must go in here
+			// 		.setLngLat(e.lngLat)
+			// 		.setHTML(e.features[0].properties.Street_add+' <br/>'+e.features[0].properties.Seating_ty)
+			// 		.addTo(map)
+			// 	}
+			// 	else{
+			// 		console.log(layerSource)
+			// 		new mapboxgl.Popup()
+			// 		// the script in step 3 below must go in here
+			// 		.setLngLat(e.lngLat)
+			// 		.setHTML(e.features[0].properties.Street_add+' <br/>'+e.features[0].properties.Seating_ty)
+			// 		.addTo(map)
+			// 	}
+				
+			// });
 		});
 
 		map.addControl(new mapboxgl.NavigationControl());
-		
-		
-		// MOUSE MOVE EVENTS
-		// map.on('mousemove', function(e) {
-		// 	<!-- let POIinfo = map.queryRenderedFeatures(e.point, { -->
-		// 		<!-- layers: ['xxx'] -->
-		// 	<!-- }); -->
 
-		// 	<!-- if (POIinfo.length > 0) { -->
-		// 		<!-- document.getElementById('info').innerHTML =  -->
-		// 			<!-- '<p>' + POIinfo[0].properties.status + -->
-		// 			<!-- '<p><em>' + POIinfo[0].properties.address + '</em></p>' + -->
-		// 			<!-- '<p>Number of floors: <em>' + POIinfo[0].properties.num_floors + '</em></p>' ; -->
-		// 	<!-- } else { -->
-		// 		<!-- document.getElementById('info').innerHTML = '<p>Hover over a shaded building for details.</p>'; -->
-		// 	<!-- } -->
-		// });
-		
-		//pop-up
-		map.on('click', 'development-activity-model-fo-98d3t5', function(e) {
 
-			new mapboxgl.Popup()
-			// the script in step 3 below must go in here
-			.setLngLat(e.lngLat)
-  			.setHTML(e.features[0].properties.status)
-  			.addTo(map)
-		});
-		
+
     </script>
 
   </body>
 </html>
+
+
+		
