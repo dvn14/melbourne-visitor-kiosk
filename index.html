@@ -37,7 +37,7 @@
 			<tr>
 				<td style="width: 24%;">
 					<div id="filter01">
-						<img src="img/map-marker-red.png" style="height:12px;">
+						<img src="img/map-marker-magenta.png" style="height:12px;">
 						<label>Attraction:</label>
 						<select id="attraction" style="width: 100%;">
 							<option value="topattraction">Top attraction</option>
@@ -56,6 +56,7 @@
 						<img src="img/map-marker-orange.png" style="height:12px;">
 						<label>Eateries & accommodation:</label>
 						<select id="eateries" style="width: 100%;">
+							<option value="default"></option>
 							<option value="restaurant">Restaurant</option>
 							<option value="pub">Pubs</option>
 							<option value="cafe">Cafes</option>
@@ -68,6 +69,7 @@
 						<img src="img/map-marker-blue.png" style="height:12px;">
 						<label>Public transportation:</label>
 						<select id="transportation" style="width: 100%;">
+							<option value="default"></option>
 							<option value="citycircleroute">City circle tram routes</option>
 							<option value="tramstops">Tram stops</option>
 							<option value="trainstations">Train stations</option>
@@ -80,6 +82,7 @@
 						<img src="img/map-marker-green.png" style="height:12px;">
 						<label>Public facilities:</label>
 						<select id="facility" style="width: 100%;">
+							<option value="default"></option>
 							<option value="toilets">Toilets</option>
 							<option value="policestations">Police stations</option>
 							<option value="hospitals">Hospitals</option>
@@ -93,55 +96,172 @@
 		</table>	
 	</div>
     
-	
-	<div class="pop-up-info" style="top:200px; left:800px; width:200px; font-size:12px; padding:10px">
-		Shrine of Remembrance<br>
-		<img src="img/shrine-of-remembrance.jpg" style="width:200px;"><br>
-		<img src="img/4-star-rating.png" style="height:12px;"><br>
-		Landmarks & Historical Buildings<br>
-		Open everyday 10:00 AM - 5:00 PM<br>
-		St Kilda Rd<br>
-		Melbourne, Victoria<br>
-		<a href="https://shrine.org.au">shrine.org.au</a><br>
-		+61 3 9661 8100
-	</div>
-	
-	
-	
-	
-	
-	
-	
+		
 	
     <script>
 		mapboxgl.accessToken = 'pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg';
-
-		var bounds = [ // City of Melbourne's bounds
-				[-37.854428, 144.897845], // Southwest coordinates
-				[-37.776493, 145.019147] // Northeast coordinates
-			];
 
 
 		var map = new mapboxgl.Map({
 			container: 'map',
 			style: 'mapbox://styles/penguinc2h6/ckfus8d6g5z0q19k2db7mkxui/draft',
-			//center: [-37.813470,144.963691],
-			//zoom: 12,
-			//maxBounds: bounds // Sets bounds as max
+			center: [144.952776,-37.818285], //center the map at Southern Cross Station
+			zoom: 12, //set the default zoom level
+			minZoom: 11 //set the minimum zoom level
 		});
 
+		
+		<!-- Add Mapbox Navigation Control -->
 		map.addControl(new mapboxgl.NavigationControl());
 		
 		
+		
 		map.on('load', function() {
-		  var directions = new MapboxDirections({
+			<!-- Add Mapbox Directions Control -->
+			/*var directions = new MapboxDirections({
 			accessToken: mapboxgl.accessToken
-		  });
-		  map.addControl(directions, 'top-left');
-
-		  directions.setOrigin('Bourke Street Mall, Melbourne VIC');
-		  <!-- directions.setDestination('East York Avenue, Toronto'); -->
+			});
+			map.addControl(directions, 'top-left');
+			directions.setOrigin('Southern Cross Station, Melbourne VIC');*/
+			
+			
+			
 		});
+		
+		
+		<!-- Add You-Are-Here Marker -->
+		var yah_marker = document.createElement('div');
+		yah_marker.className = 'marker-youarehere';
+		new mapboxgl.Marker(yah_marker)
+			.setLngLat([144.952776,-37.8181])
+			.addTo(map);
+		
+		
+		<!-- Add Eateries Marker -->
+		var eateries = {
+			type: 'FeatureCollection',
+			features: 
+			[
+				{
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [144.9682985,-37.7976816]
+					},
+					properties: {
+						name: 		'Vertue Coffee Roasters',
+						image_url:	'<img src="img/vertue-coffee-roasters.jpg" style="width:200px;">',
+						rating: 	'4',
+						review_count: '19',
+						category: 	'Coffee & Tea, Coffee Roasteries',
+						location:	'8 Raffa Pl. Melbourne Victoria 3053.',
+						url:		'vertuecoffee.com.au',
+						phone:		'+61 3 8060 6987'
+					}
+				}
+			]
+		};
+		
+		eateries.features.forEach(function(marker) {
+			var el = document.createElement('div');
+			el.className = 'marker-eateries';
+			new mapboxgl.Marker(el)
+				.setLngLat(marker.geometry.coordinates)
+				.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+				.setHTML(	'<h3>' + marker.properties.name + '</h3>'+
+							'<p>' + 
+							marker.properties.image_url + '<br>' +
+							((marker.properties.rating == 1) ? '<img src="img/1-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 2) ? '<img src="img/2-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 3) ? '<img src="img/3-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 4) ? '<img src="img/4-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 5) ? '<img src="img/5-star-rating.png" style="height:12px;">' : '') + 
+							' ' +
+							marker.properties.review_count + ' reviews<br>' +
+							marker.properties.category + '<br>' +
+							marker.properties.location + '<br>' +
+							'<img src="img/icon-external-link.png" style="height:10px;">' +
+							marker.properties.url + '<br>' +
+							'<img src="img/icon-phone-call.png" style="height:10px;">  ' +
+							marker.properties.phone +
+							'</p>'))
+				.addTo(map);
+		});
+		
+		
+		
+		
+		<!-- Add Attractions Marker -->
+		var attractions = {
+			type: 'FeatureCollection',
+			features: 
+			[
+				{
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [144.9651897,-37.8098087]
+					},
+					properties: {
+						name: 		'State Library Victoria',
+						image_url:	'<img src="img/state-library-victoria.jpg" style="width:200px;">',
+						rating: 	'5',
+						review_count: '36',
+						category: 	'Libraries',
+						location:	'328 Swanston St. Melbourne Victoria 3000.',
+						url:		'slv.vic.gov.au',
+						phone:		'+61 3 8664 7000'
+					}
+				},
+				{
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [144.9733, -37.8304]
+					},
+					properties: {
+						name: 		'Shrine of Remembrance',
+						image_url:	'<img src="img/shrine-of-remembrance.jpg" style="width:200px;">',
+						rating: 	'4',
+						review_count: '25',
+						category: 	'Landmarks & Historical Buildings',
+						location:	'St Kilda Rd. Melbourne Victoria 3004.',
+						url:		'shrine.org.au',
+						phone:		'+61 3 9661 8100'
+					}
+				},
+			]
+		};
+		
+		attractions.features.forEach(function(marker) {
+			var el = document.createElement('div');
+			el.className = 'marker-attraction';
+			new mapboxgl.Marker(el)
+				.setLngLat(marker.geometry.coordinates)
+				.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+				.setHTML(	'<h3>' + marker.properties.name + '</h3>'+
+							'<p>' + 
+							marker.properties.image_url + '<br>' +
+							((marker.properties.rating == 1) ? '<img src="img/1-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 2) ? '<img src="img/2-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 3) ? '<img src="img/3-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 4) ? '<img src="img/4-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 5) ? '<img src="img/5-star-rating.png" style="height:12px;">' : '') + 
+							' ' +
+							marker.properties.review_count + ' reviews<br>' +
+							marker.properties.category + '<br>' +
+							marker.properties.location + '<br>' +
+							'<img src="img/icon-external-link.png" style="height:10px;">' +
+							marker.properties.url + '<br>' +
+							'<img src="img/icon-phone-call.png" style="height:10px;">  ' +
+							marker.properties.phone +
+							'</p>'))
+				.addTo(map);
+		});
+		
+		
+		
+		
 		
     </script>
 
