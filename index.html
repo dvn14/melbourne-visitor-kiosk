@@ -11,50 +11,257 @@
 
   
   <body>
-
-    <div id="map"></div>
+	<!-- Mapbox Direction Panel -->
+	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+	<link
+		rel="stylesheet"
+		href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
+		type="text/css"
+	/>
+    
+	
+	<!-- Mapbox Map Panel -->
+	<div id="map"></div>
+	
+	
+	<!-- Top Filter Menu -->
 	<div class="map-overlay" id="title">
-		<h2>POI Info</h2>
-		<div id="info">
-			<p>Hover over a POI!</p>
-		</div>
+		<!-- Title and Greeting -->
+		<p> 
+			<font style = "font-weight:bold"> Welcome to Melbourne, Mates!</font> 
+			<font style = "font-size:13px">You are at Southern Cross station</font>
+		</p>
+		
+		<!-- Filter Menu -->
+		<table style="margin-left:10px; margin-right:10px;font-size:13px">
+			<tr>
+				<td style="width: 24%;">
+					<div id="filter01">
+						<img src="img/map-marker-magenta.png" style="height:12px;">
+						<label>Attraction:</label>
+						<select id="attraction" style="width: 100%;">
+							<option value="topattraction">Top attraction</option>
+							<option value="museum">Museum & art gallery</option>
+							<option value="history">History & heritage</option>
+							<option value="shopping">Shopping centers</option>
+							<option value="sight">Sight & landmarks</option>
+							<option value="patks">Parks & gardens</option>
+							<option value="visitorcentre">Visitor information centers</option>
+
+						</select>
+					</div>
+				</td>
+				<td style="width: 24%;">
+					<div id="filter02">
+						<img src="img/map-marker-orange.png" style="height:12px;">
+						<label>Eateries & accommodation:</label>
+						<select id="eateries" style="width: 100%;">
+							<option value="default"></option>
+							<option value="restaurant">Restaurant</option>
+							<option value="pub">Pubs</option>
+							<option value="cafe">Cafes</option>
+							<option value="hotel">Hotels & lodges</option>
+						</select>
+					</div>
+				</td>
+				<td style="width: 24%;">
+					<div id="filter03">
+						<img src="img/map-marker-blue.png" style="height:12px;">
+						<label>Public transportation:</label>
+						<select id="transportation" style="width: 100%;">
+							<option value="default"></option>
+							<option value="citycircleroute">City circle tram routes</option>
+							<option value="tramstops">Tram stops</option>
+							<option value="trainstations">Train stations</option>
+							<option value="taxiranks">Taxi Ranks</option>
+						</select>
+					</div>
+				</td>
+				<td style="width: 24%;">
+					<div id="filter04">
+						<img src="img/map-marker-green.png" style="height:12px;">
+						<label>Public facilities:</label>
+						<select id="facility" style="width: 100%;">
+							<option value="default"></option>
+							<option value="toilets">Toilets</option>
+							<option value="policestations">Police stations</option>
+							<option value="hospitals">Hospitals</option>
+						</select>
+					</div>
+				</td>
+				<td style="width: 4%; vertical-align:bottom">
+					<button>Reset</button>
+				</td>
+			</tr>
+		</table>	
 	</div>
     
+		
+	
     <script>
 		mapboxgl.accessToken = 'pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg';
-
-		var bounds = [ // City of Melbourne's bounds
-				[-37.854428, 144.897845], // Southwest coordinates
-				[-37.776493, 145.019147] // Northeast coordinates
-			];
 
 
 		var map = new mapboxgl.Map({
 			container: 'map',
 			style: 'mapbox://styles/penguinc2h6/ckfus8d6g5z0q19k2db7mkxui/draft',
-			//center: [-37.814,144.961],
-			//zoom: 12,
-			//maxBounds: bounds // Sets bounds as max
+			center: [144.952776,-37.818285], //center the map at Southern Cross Station
+			zoom: 12, //set the default zoom level
+			minZoom: 11 //set the minimum zoom level
 		});
 
+		
+		<!-- Add Mapbox Navigation Control -->
 		map.addControl(new mapboxgl.NavigationControl());
 		
 		
-		// MOUSE MOVE EVENTS
-		map.on('mousemove', function(e) {
-			<!-- let POIinfo = map.queryRenderedFeatures(e.point, { -->
-				<!-- layers: ['xxx'] -->
-			<!-- }); -->
-
-			<!-- if (POIinfo.length > 0) { -->
-				<!-- document.getElementById('info').innerHTML =  -->
-					<!-- '<p>' + POIinfo[0].properties.status + -->
-					<!-- '<p><em>' + POIinfo[0].properties.address + '</em></p>' + -->
-					<!-- '<p>Number of floors: <em>' + POIinfo[0].properties.num_floors + '</em></p>' ; -->
-			<!-- } else { -->
-				<!-- document.getElementById('info').innerHTML = '<p>Hover over a shaded building for details.</p>'; -->
-			<!-- } -->
+		
+		map.on('load', function() {
+			<!-- Add Mapbox Directions Control -->
+			/*var directions = new MapboxDirections({
+			accessToken: mapboxgl.accessToken
+			});
+			map.addControl(directions, 'top-left');
+			directions.setOrigin('Southern Cross Station, Melbourne VIC');*/
+			
+			
+			
 		});
+		
+		
+		<!-- Add You-Are-Here Marker -->
+		var yah_marker = document.createElement('div');
+		yah_marker.className = 'marker-youarehere';
+		new mapboxgl.Marker(yah_marker)
+			.setLngLat([144.952776,-37.8181])
+			.addTo(map);
+		
+		
+		<!-- Add Eateries Marker -->
+		var eateries = {
+			type: 'FeatureCollection',
+			features: 
+			[
+				{
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [144.9682985,-37.7976816]
+					},
+					properties: {
+						name: 		'Vertue Coffee Roasters',
+						image_url:	'<img src="img/vertue-coffee-roasters.jpg" style="width:200px;">',
+						rating: 	'4',
+						review_count: '19',
+						category: 	'Coffee & Tea, Coffee Roasteries',
+						location:	'8 Raffa Pl. Melbourne Victoria 3053.',
+						url:		'vertuecoffee.com.au',
+						phone:		'+61 3 8060 6987'
+					}
+				}
+			]
+		};
+		
+		eateries.features.forEach(function(marker) {
+			var el = document.createElement('div');
+			el.className = 'marker-eateries';
+			new mapboxgl.Marker(el)
+				.setLngLat(marker.geometry.coordinates)
+				.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+				.setHTML(	'<h3>' + marker.properties.name + '</h3>'+
+							'<p>' + 
+							marker.properties.image_url + '<br>' +
+							((marker.properties.rating == 1) ? '<img src="img/1-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 2) ? '<img src="img/2-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 3) ? '<img src="img/3-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 4) ? '<img src="img/4-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 5) ? '<img src="img/5-star-rating.png" style="height:12px;">' : '') + 
+							' ' +
+							marker.properties.review_count + ' reviews<br>' +
+							marker.properties.category + '<br>' +
+							marker.properties.location + '<br>' +
+							'<img src="img/icon-external-link.png" style="height:10px;">' +
+							marker.properties.url + '<br>' +
+							'<img src="img/icon-phone-call.png" style="height:10px;">  ' +
+							marker.properties.phone +
+							'</p>'))
+				.addTo(map);
+		});
+		
+		
+		
+		
+		<!-- Add Attractions Marker -->
+		var attractions = {
+			type: 'FeatureCollection',
+			features: 
+			[
+				{
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [144.9651897,-37.8098087]
+					},
+					properties: {
+						name: 		'State Library Victoria',
+						image_url:	'<img src="img/state-library-victoria.jpg" style="width:200px;">',
+						rating: 	'5',
+						review_count: '36',
+						category: 	'Libraries',
+						location:	'328 Swanston St. Melbourne Victoria 3000.',
+						url:		'slv.vic.gov.au',
+						phone:		'+61 3 8664 7000'
+					}
+				},
+				{
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [144.9733, -37.8304]
+					},
+					properties: {
+						name: 		'Shrine of Remembrance',
+						image_url:	'<img src="img/shrine-of-remembrance.jpg" style="width:200px;">',
+						rating: 	'4',
+						review_count: '25',
+						category: 	'Landmarks & Historical Buildings',
+						location:	'St Kilda Rd. Melbourne Victoria 3004.',
+						url:		'shrine.org.au',
+						phone:		'+61 3 9661 8100'
+					}
+				},
+			]
+		};
+		
+		attractions.features.forEach(function(marker) {
+			var el = document.createElement('div');
+			el.className = 'marker-attraction';
+			new mapboxgl.Marker(el)
+				.setLngLat(marker.geometry.coordinates)
+				.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+				.setHTML(	'<h3>' + marker.properties.name + '</h3>'+
+							'<p>' + 
+							marker.properties.image_url + '<br>' +
+							((marker.properties.rating == 1) ? '<img src="img/1-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 2) ? '<img src="img/2-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 3) ? '<img src="img/3-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 4) ? '<img src="img/4-star-rating.png" style="height:12px;">' : '') +
+							((marker.properties.rating == 5) ? '<img src="img/5-star-rating.png" style="height:12px;">' : '') + 
+							' ' +
+							marker.properties.review_count + ' reviews<br>' +
+							marker.properties.category + '<br>' +
+							marker.properties.location + '<br>' +
+							'<img src="img/icon-external-link.png" style="height:10px;">' +
+							marker.properties.url + '<br>' +
+							'<img src="img/icon-phone-call.png" style="height:10px;">  ' +
+							marker.properties.phone +
+							'</p>'))
+				.addTo(map);
+		});
+		
+		
+		
+		
 		
     </script>
 
