@@ -28,7 +28,7 @@
 	<div class="map-overlay" id="title">
 		<!-- Title and Greeting -->
 		<p> 
-			<font style = "font-weight:bold"> Welcome to Melbourne, Mates!</font> 
+			<font style = "font-weight:bold"> Welcome to Melbourne</font> 
 			<font style = "font-size:13px">You are at Southern Cross station</font>
 		</p>
 		
@@ -102,11 +102,18 @@
 		mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2aW52aW51biIsImEiOiJja2VrNHRla3kwZDkyMnl0Nng4Nno1cGJmIn0.pAJqAvlrWzR-YyBY9YCYIg';
 
 		var map = new mapboxgl.Map({
-		container: 'map',
-		style: 'mapbox://styles/devinvinun/ckg8yyuy50hn519nju5tthh8i',
-		center: [144.96, -37.81],
-		zoom: 12
+			container: 'map',
+			style: 'mapbox://styles/devinvinun/ckg8yyuy50hn519nju5tthh8i',
+			center: [144.96, -37.81],
+			zoom: 12.5
 		});
+
+		//Add You-Are-Here Marker
+		var yah_marker = document.createElement('div');
+		yah_marker.className = 'marker-youarehere';
+		new mapboxgl.Marker(yah_marker)
+			.setLngLat([144.952776,-37.8181])
+			.addTo(map);
 
 		map.on('load', function() {
 			var layerNames = ['poi', 'rest', 'tram'];
@@ -161,54 +168,37 @@
 				}
 
 				for (j = 0; j < cap; j++) {
-				var statusName, statusIconCode, statusIcon, statusName_out, statuslap;
-				if (layerName === 'tram') {
-					statusName = "Tram Routes";
-					statusIconCode = '\uf238';
-					statusName_out = statusName;
+					var statusName, statusIconCode, statusIcon, statusName_out, statuslap;
+					if (layerName !== 'tram') {
+						statusName = statusNames[j];
+						statusIconCode = statusIconCodes[j];
+						statusIcon = statusIcons[j];
+						statusName_out = statusNames_out[j];
+						statuslap = statusOverlap[j]
 
-					map.addLayer({
-					id: statusName_out,
-					type: 'line',
-					source: {
-						type: 'vector',
-						url: layerUrl
-					},
-					'source-layer': layerSource,
-					'paint': {
-						'line-color': '#F7455D',
-						'line-width': 2
-					},
-					'filter': ['==', 'RTPATHDESC', 'LR006_1_065']
-					});
-				} else {
-					statusName = statusNames[j];
-					statusIconCode = statusIconCodes[j];
-					statusIcon = statusIcons[j];
-					statusName_out = statusNames_out[j];
-					statuslap = statusOverlap[j]
+						map.loadImage(
+							'https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png',
+							function(error, image) {
+								if (error) throw error;
+								map.addImage('attraction', image);
+						});
 
-					map.loadImage('img/map-marker-magenta.png', function(error, image) {
-    					if (error) throw error;
-						map.addImage('attraction', image);
-					});
-
-					map.addLayer({
-						id: statusName_out,
-						type: 'symbol',
-						source: {
-							type: 'vector',
-							url: layerUrl
-						},
-						'source-layer': layerSource,
-						'layout': {
-							'icon-allow-overlap': true, //statuslap,
-							'icon-image': ['concat', statusIcon, '-15'],
-							'visibility': 'none'
-						},
-						'filter': ['==', layerAttr, statusName]
-					});
-				}
+						map.addLayer({
+							id: statusName_out,
+							type: 'symbol',
+							source: {
+								type: 'vector',
+								url: layerUrl
+							},
+							'source-layer': layerSource,
+							'layout': {
+								'icon-allow-overlap': statuslap,
+								'icon-image': ['concat', statusIcon, '-15'],
+								'visibility': 'none'
+							},
+							'filter': ['==', layerAttr, statusName]
+						});
+					}
 						//map.setLayoutProperty(statusName_out, 'visibility', 'none');
 				
 				}

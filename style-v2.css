@@ -5,11 +5,6 @@
 	width: 80%;
 }
 
-body { 
-	margin: 0; 
-	padding: 0; 
-}
-
 .map-overlay {
 	position: absolute;
 	background: rgba(255, 255, 255, 0.8);
@@ -19,27 +14,12 @@ body {
 	border-radius: 3px;
 }
 
-.pop-up-info {
-	position: absolute;
-	background: rgba(255, 255, 255, 0.8);
-	font-family: Arial, sans-serif;
-	overflow: auto;
-	border-radius: 10px;
-}
-
 #title {
 	top: 0;
-	left: 20px;
-	height: 80px;
+	left: 75%;
+	height: 100%;
 	margin-top: 10px;
-	width: 72%;
-}
-
-h2 {
-	margin: 10px;
-	margin-bottom: 3px;
-	font-size: 1.0em;
-	text-align: left;
+	width: 300px;
 }
 
 p {
@@ -47,6 +27,37 @@ p {
 	margin-bottom: 3px;
 	font-size: 1em;
 	text-align: left;
+}
+
+.btn-group button {
+	color: #404040;
+	padding: 10px 24px; /* Some padding */
+	cursor: pointer; /* Pointer/hand icon */
+	width: 180px; /* Set a width if needed */
+	display: block; /* Make the buttons appear below each other */
+	margin-left: 10px;
+	font-size: 13px;
+	border: 1px solid rgba(0, 0, 0, 0.25);
+	background: #ffffff;
+	text-align: left;
+}
+
+.btn-group button:not(:last-child) {
+	border-bottom: none; /* Prevent double borders */
+}
+
+.btn-group button.active {
+	background-color: #1b9e77;
+	color: #ffffff;
+}
+
+
+.pop-up-info {
+	position: absolute;
+	background: rgba(255, 255, 255, 0.8);
+	font-family: Arial, sans-serif;
+	overflow: auto;
+	border-radius: 10px;
 }
 
 .marker-youarehere {
@@ -108,8 +119,3 @@ p {
 	left:15px;
 } 
 
-/* .mapbox-directions-instructions, */
-/* .mapbox-directions-instructions-wrapper, */
-/* .mapbox-directions{ */
-	/* top:300px; */
-/* }  */
