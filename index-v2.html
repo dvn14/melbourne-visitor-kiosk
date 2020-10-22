@@ -3,7 +3,7 @@
   <head>
 	<meta charset="utf-8" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet">
+	<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet">
     <link href="style-v2.css" rel="stylesheet">
   
   </head>
@@ -31,47 +31,48 @@
 			<font style="font-weight:bold"> Welcome to Melbourne</font>
 		</p>
 		<p>
-		  	<font style="font-size:13px">You are at Southern Cross station</font>
+			<img src="img/pin-you-are-here.png" style="height:12px;" id='test'>
+		  	<font style="font-size:13px">You are at <font style="font-weight:bold">Southern Cross station</font></font>
 		</p>
 		<p>
 		  	<font style="font-size:13px">Attractions:</font>
 		</p>
 	  
 		<div class="btn-group">
-			<button class="btn active" value="topattraction">Top Attractions</button>
-			<button class="btn" value="museum">Museum & Art Gallery</button>
-			<button class="btn" value="history">History & Heritage</button>
-			<button class="btn" value="shopping">Shopping Centers</button>
-			<button class="btn" value="sight">Sight & Landmarks</button>
-			<button class="btn" value="parks">Parks & Gardens</button>
-			<button class="btn" value="zoo">Zoo & Aquariums</button>
+			<button class="btn active" value="topattraction" style="background: #1b9e77 url('icons/svgs-mono/star-15.svg') no-repeat center left;">Top Attractions</button>
+			<button class="btn" value="museum" style="background: url('icons/svgs-mono/museum-15.svg') no-repeat center left;">Museum & Art Gallery</button>
+			<button class="btn" value="history" style="background: url('icons/svgs-mono/town-hall-15.svg') no-repeat center left;">History & Heritage</button>
+			<button class="btn" value="shopping" style="background: url('icons/svgs-mono/grocery-15.svg') no-repeat center left;">Shopping Centers</button>
+			<button class="btn" value="sight" style="background: url('icons/svgs-mono/attraction-15.svg') no-repeat center left;">Sight & Landmarks</button>
+			<button class="btn" value="parks" style="background: url('icons/svgs-mono/park-15.svg') no-repeat center left;">Parks & Gardens</button>
+			<button class="btn" value="zoo" style="background: url('icons/svgs-mono/veterinary-15.svg') no-repeat center left;">Zoo & Aquariums</button>
 		</div>
 	  
 		<p>
 		  	<font style="font-size:13px">Eateries & Accommodation:</font>
 		</p>
 		<div class="btn-group">
-			<button class="btn active" value="topeateries" style='background-color: #d95f02'>Top Eateries</button>
-			<button class="btn" value="restaurant">Restaurants & Cafes</button>
-			<button class="btn" value="pub">Pubs</button>
-			<button class="btn" value="hotel">Hotels & Lodges</button>
+			<button class="btn active" value="topeateries" style="background: #d95f02 url('icons/svgs-mono/star-15.svg') no-repeat center left;">Top Eateries</button>
+			<button class="btn" value="restaurant" style="background: url('icons/svgs-mono/restaurant-15.svg') no-repeat center left;">Restaurants & Cafes</button>
+			<button class="btn" value="pub" style="background: url('icons/svgs-mono/bar-15.svg') no-repeat center left;">Pubs</button>
+			<button class="btn" value="hotel" style="background: url('icons/svgs-mono/lodging-15.svg') no-repeat center left;">Hotels & Lodges</button>
 		</div>
 	  
 		<p>
 		  	<font style="font-size:13px">Public Transportation:</font>
 		</p>
 		<div class="btn-group">
-			<button class="btn" value="tram">Tram Stops</button>
-			<button class="btn" value="train">Train Stations</button>
-			<button class="btn" value="taxi">Taxi Ranks</button>
+			<button class="btn" value="tram" style="background: url('icons/svgs-mono/rail-light-15.svg') no-repeat center left;">Tram Stops</button>
+			<button class="btn" value="train" style="background: url('icons/svgs-mono/rail-15.svg') no-repeat center left;">Train Stations</button>
+			<button class="btn" value="taxi" style="background: url('icons/svgs-mono/car-15.svg') no-repeat center left;">Taxi Ranks</button>
 		</div>
 	  
 		<p>
 		  	<font style="font-size:13px">Public Facilities:</font>
 		</p>
 		<div class="btn-group">
-			<button class="btn" value="visitorcentre">Visitor Information Centers</button>
-			<button class="btn" value="tram">Toilets</button>
+			<button class="btn" value="visitorcentre" style="background: url('icons/svgs-mono/information-15.svg') no-repeat center left;">Visitor Information Centers</button>
+			<button class="btn" value="toilets" style="background: url('icons/svgs-mono/toilet-15.svg') no-repeat center left;">Toilets</button>
 		</div>
 	  </div>
     
@@ -82,7 +83,7 @@
 
 		var map = new mapboxgl.Map({
 			container: 'map',
-			style: 'mapbox://styles/devinvinun/ckg8yyuy50hn519nju5tthh8i',
+			style: 'mapbox://styles/devinvinun/ckgkny6cf29jv1amvwgth71eo',
 			center: [144.96, -37.81],
 			zoom: 12.5
 		});
@@ -104,14 +105,14 @@
 
 			var poiNames = ['Cinema', 'Retail', 'Art Gallery/Museum', 'Aquarium'];
 			var poiIconCodes = ['\uf03d', '\uf07a', '\uf19c', '\uf1b0'];
-			var poiIcons = ['cinema', 'grocery', 'town-hall', 'veterinary'];
+			var poiIcons = ['cinema', 'new-grocery', 'new-museum', 'new-veterinary'];
 			var poiNames_out = ['Cinema', 'shopping', 'museum', 'zoo'];
 			var poiOverlap = [true, true, true, true]
 
 			var restNames = ['Cafes and Restaurants', 'Pubs, Taverns and Bars', 'Accommodation'];
 			var restNames_out = ['restaurant', 'pub', 'hotel'];
 			var restIconCodes = ['\uf0f5', '\uf000', '\uf236'];
-			var restIcons = ['restaurant', 'bar', 'lodging']
+			var restIcons = ['new-restaurant', 'new-bar', 'new-lodging']
 			var restOverlap = [false, false, false]
 
 			var statusNames, statusIconCodes, statusIcons, statusOutput, cap, statusNames_out, statusOverlap;
@@ -147,31 +148,30 @@
 				}
 
 				for (j = 0; j < cap; j++) {
-				var statusName, statusIconCode, statusIcon, statusName_out, statuslap;
-				if (layerName !== 'tram') {
-					statusName = statusNames[j];
-					statusIconCode = statusIconCodes[j];
-					statusIcon = statusIcons[j];
-					statusName_out = statusNames_out[j];
-					statuslap = statusOverlap[j]
+					var statusName, statusIconCode, statusIcon, statusName_out, statuslap;
+					if (layerName !== 'tram') {
+						statusName = statusNames[j];
+						statusIconCode = statusIconCodes[j];
+						statusIcon = statusIcons[j];
+						statusName_out = statusNames_out[j];
+						statuslap = statusOverlap[j]
 
-					map.addLayer({
-					id: statusName_out,
-					type: 'symbol',
-					source: {
-						type: 'vector',
-						url: layerUrl
-					},
-					'source-layer': layerSource,
-					'layout': {
-						'icon-allow-overlap': statuslap,
-						'icon-image': ['concat', statusIcon, '-15']
-					},
-					'filter': ['==', layerAttr, statusName]
-					});
-
-					map.setLayoutProperty(statusName_out, 'visibility', 'none');
-				}
+						map.addLayer({
+							id: statusName_out,
+							type: 'symbol',
+							source: {
+								type: 'vector',
+								url: layerUrl
+							},
+							'source-layer': layerSource,
+							'layout': {
+								'icon-allow-overlap': statuslap,
+								'visibility': 'none',
+								'icon-image': ['concat', statusIcon, '-15']
+							},
+							'filter': ['==', layerAttr, statusName]
+						});
+					}
 				}
 			}
 			});
@@ -192,13 +192,13 @@
 						if (this.className === "btn") {
 							this.className += " active";
 							if (set1.includes(clickedLayer) === true) {
-							this.style.backgroundColor = "#1b9e77";
+								this.style.backgroundColor = "#1b9e77";
 							} else if (set2.includes(clickedLayer) === true) {
-							this.style.backgroundColor = "#d95f02";
+								this.style.backgroundColor = "#d95f02";
 							} else if (set3.includes(clickedLayer) === true) {
-							this.style.backgroundColor = "#7570b3";
+								this.style.backgroundColor = "#7570b3";
 							} else {
-							this.style.backgroundColor = "#e7298a";
+								this.style.backgroundColor = "#e7298a";
 							}
 							this.style.color = "#ffffff";
 						} else {
@@ -213,7 +213,8 @@
 						} else {
 							map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
 						}
-					});
+					}
+				);
 				btns[i].addEventListener("mouseenter",
 					function(event) {
 						if (this.className !== "btn") {
@@ -223,7 +224,8 @@
 							event.target.style.color = "#000000";
 							event.target.style.opacity = 0.6;
 						}
-					});
+					}
+				);
 				btns[i].addEventListener("mouseleave",
 					function(event) {
 						if (this.className !== "btn") {
@@ -233,7 +235,8 @@
 							event.target.style.color = "#404040";
 							event.target.style.opacity = 1;
 						}
-					});
+					}
+				);
 }
 
 		var nav = new mapboxgl.NavigationControl();

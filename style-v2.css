@@ -16,10 +16,10 @@
 
 #title {
 	top: 0;
-	left: 75%;
-	height: 100%;
+	left: 81%;
+	height: 98%;
 	margin-top: 10px;
-	width: 300px;
+	width: 250px;
 }
 
 p {
@@ -31,10 +31,10 @@ p {
 
 .btn-group button {
 	color: #404040;
-	padding: 10px 24px; /* Some padding */
-	cursor: pointer; /* Pointer/hand icon */
-	width: 180px; /* Set a width if needed */
-	display: block; /* Make the buttons appear below each other */
+	padding: 8px 24px;
+	cursor: pointer;
+	width: 200px;
+	display: block;
 	margin-left: 10px;
 	font-size: 13px;
 	border: 1px solid rgba(0, 0, 0, 0.25);
