@@ -51,6 +51,17 @@ p {
 	color: #ffffff;
 }
 
+.mapboxgl-popup {
+	max-width: 200px;
+	cursor: pointer;
+}
+
+.mapboxgl-popup-content {
+	text-align: left;
+	font-family: 'Open Sans', sans-serif;
+	cursor: pointer;
+}
+
 
 .pop-up-info {
 	position: absolute;
@@ -103,15 +114,6 @@ p {
 	height: 30px;
 	border-radius: 50%;
 	cursor: pointer;
-}
-
-.mapboxgl-popup {
-	max-width: 200px;
-}
-
-.mapboxgl-popup-content {
-	text-align: center;
-	font-family: 'Open Sans', sans-serif;
 }
 
 .mapbox-directions-component{

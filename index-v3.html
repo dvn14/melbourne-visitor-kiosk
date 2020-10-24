@@ -39,7 +39,7 @@
 		</p>
 	  
 		<div class="btn-group">
-			<button class="btn active" value="topattraction" style="background: #1b9e77 url('icons/svgs-mono/star-15.svg') no-repeat center left;">Top Attractions</button>
+			<button class="btn active" value="topattraction" style="background: #1b9e77 url('icons/svgs-mono/marker-15.svg') no-repeat center left;">Top Attractions</button>
 			<button class="btn" value="museum" style="background: url('icons/svgs-mono/museum-15.svg') no-repeat center left;">Museum & Art Gallery</button>
 			<button class="btn" value="shopping" style="background: url('icons/svgs-mono/grocery-15.svg') no-repeat center left;">Shopping Centers</button>
 			<button class="btn active" value="sight" style="background: #1b9e77 url('icons/svgs-mono/attraction-15.svg') no-repeat center left;">Sight & Landmarks</button>
@@ -71,6 +71,11 @@
 			<button class="btn active" value="visitorcentre" style="background: #e7298a url('icons/svgs-mono/information-15.svg') no-repeat center left;">Visitor Centers</button>
 			<button class="btn" value="toilets" style="background: url('icons/svgs-mono/toilet-15.svg') no-repeat center left;">Toilets</button>
 		</div>
+
+		<br>
+		<div class="btn-group">
+			<button class="abc" value="rest" style="background: #969696; text-align: center; color: #ffffff;" onclick="refreshPage()">Reset</button>
+		</div>
 	  </div>
     
 		
@@ -78,11 +83,16 @@
     <script>
 		mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2aW52aW51biIsImEiOiJja2VrNHRla3kwZDkyMnl0Nng4Nno1cGJmIn0.pAJqAvlrWzR-YyBY9YCYIg';
 
+		// zoom bounds
+		var bounds = [[144.891962,-37.850929],	// Southwest coordinates
+					  [144.99386,-37.770209]];	// Northeast coordinates
+
 		var map = new mapboxgl.Map({
 			container: 'map',
-			style: 'mapbox://styles/devinvinun/ckgkny6cf29jv1amvwgth71eo',
+			style: 'mapbox://styles/devinvinun/ckgnwk4y417uc1appmwnngsj6',
 			center: [144.96, -37.81],
-			zoom: 13
+			zoom: 13.5,
+			maxBounds: bounds
 		});
 
 		//Add You-Are-Here Marker
@@ -100,7 +110,7 @@
 			var layerAttrs = ['PUBDESCSHT', '', '', 'Industry_1', 'classifica'];
 
 			var poiNames = ['Top attraction', 'Museum & art gallery', 'Shopping center & market', 'Sight & landmark', 'Garden & park', 'Visitor centre', 'Railway station'];
-			var poiIcons = ['new-star-green', 'new-museum', 'new-grocery', 'new-attraction', 'new-park', 'new-information', 'new-rail'];
+			var poiIcons = ['new-marker', 'new-museum', 'new-grocery', 'new-attraction', 'new-park', 'new-information', 'new-rail'];
 			var poiNames_out = ['topattraction', 'museum', 'shopping', 'sight', 'parks', 'visitorcentre', 'train'];
 			var poiOverlap = [true, true, true, true, true, true, true];
 			var poiVis = ['visible', 'none', 'none', 'visible', 'none', 'visible', 'none'];
@@ -166,10 +176,13 @@
 								url: layerUrl
 							},
 							'source-layer': layerSource,
+							'paint': {
+								'icon-opacity': 0.6
+          					},
 							'layout': {
 								'icon-allow-overlap': true,
 								'visibility': 'none',
-								'icon-image': ['concat', 'new-toilet', '-15']
+								'icon-image': 'new-toilet'
 							}
 						});
 					} else if (layerName === 'tram-lines') {
@@ -193,7 +206,7 @@
 								'line-opacity': 0.6
           					},
 							'layout': {
-								'visibility': 'visible'
+								'visibility': 'none'
 							},
 							'filter': ['==', layerAttr, statusName]
 						});
@@ -209,10 +222,9 @@
 							'layout': {
 								'icon-allow-overlap': true,
 								'visibility': 'none',
-								'icon-image': ['concat', 'new-rail-light', '-15']
+								'icon-image': 'new-rail-light'
 							},
 							'paint': {
-								'icon-color': '#000000',
 								'icon-opacity': 0.6
 							}
 						});
@@ -234,7 +246,7 @@
 							'layout': {
 								'icon-allow-overlap': statuslap,
 								'visibility': vis,
-								'icon-image': ['concat', statusIcon, '-15']
+								'icon-image': statusIcon
 							},
 							'filter': ['==', layerAttr, statusName]
 						});
@@ -306,8 +318,29 @@
 			);
 		}
 
+		// show zoom and navigation control
 		var nav = new mapboxgl.NavigationControl();
 		map.addControl(nav, 'bottom-left');		
+
+		// show tram routes when a tram station is clicked
+		map.on('click', 'tram', function(event) {
+			var routes = event.features[0].properties.ROUTEUSSP.split(",");
+			var test = "";
+			for (var i = 0; i < routes.length; i++) {
+				test += routes[i] + '<br>';
+				map.setLayoutProperty(routes[i], 'visibility', 'visible');
+			}
+
+			new mapboxgl.Popup()
+			.setLngLat(event.lngLat)
+			.setHTML('<b>' + event.features[0].properties.STOP_NAME+ '</b><br>' + test)
+			.addTo(map);
+		});
+
+		// refresh page when reset is clicked
+		function refreshPage(){
+			window.location.reload();
+		} 
 		
     </script>
 
