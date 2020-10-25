@@ -112,10 +112,10 @@
 
 		map.on('load', function() {
 			var layerNames = ['tram-lines', 'tram-stops', 'toilets', 'rest', 'poi'];
-			var layerUrls = ['mapbox://penguinc2h6.dol2v9ij', 'mapbox://penguinc2h6.7d5wih18', 'mapbox://penguinc2h6.9e618tht', 'mapbox://penguinc2h6.6nf7sf5i', 'mapbox://penguinc2h6.cc5v5j0c'];
-			var layerSources = ['TramRoute_Trimmed-6zjjgo', 'TramStop_Clip-a2ksko', 'PublicToilet-8rkacx', 'Restaurant_ver-9jtm64', 'POI_Reclassifiedl-57uvpr'];
+			var layerUrls = ['mapbox://penguinc2h6.dol2v9ij', 'mapbox://penguinc2h6.7d5wih18', 'mapbox://penguinc2h6.9e618tht', 'mapbox://penguinc2h6.0z2dafws', 'mapbox://penguinc2h6.cc5v5j0c'];
+			var layerSources = ['TramRoute_Trimmed-6zjjgo', 'TramStop_Clip-a2ksko', 'PublicToilet-8rkacx', 'Restaurant_ver-7ysd8o', 'POI_Reclassifiedl-57uvpr'];
 			var layerTypes = ['line', 'symbol', 'symbol', 'symbol', 'symbol'];
-			var layerAttrs = ['PUBDESCSHT', '', '', 'Industry_1', 'classifica'];
+			var layerAttrs = ['PUBDESCSHT', '', '', 'Industry (ANZSIC4) description', 'classifica'];
 
 			// POI attributes
 			var poiNames = ['Top attraction', 'Museum & art gallery', 'Shopping center & market', 'Sight & landmark', 'Garden & park', 'Visitor centre', 'Railway station'];
@@ -128,7 +128,7 @@
 			var restNames = ['Cafes and Restaurants', 'Pubs, Taverns and Bars', 'Accommodation'];//[4511, 4520, 4400];//
 			var restNames_out = ['restaurant', 'pub', 'hotel'];
 			var restIcons = ['new-restaurant', 'new-bar', 'new-lodging']
-			var restOverlap = [true, true, true];
+			var restOverlap = [false, false, false];
 			var restVis = ['none', 'none', 'none'];
 
 			var statusNames, statusIconCodes, statusIcons, statusOutput, cap, statusNames_out, statusOverlap, statusVis;
@@ -206,7 +206,7 @@
 								'line-color': tramCol[j],
 								'line-offset': tramOff[j],
 								'line-width': 3,
-								'line-opacity': 0.8
+								'line-opacity': 1
           					},
 							'layout': {
 								'visibility': 'none'
