@@ -69,12 +69,15 @@
 		</p>
 		<div class="btn-group">
 			<button class="btn active" value="visitorcentre" style="background: #e7298a url('icons/svgs-mono/information-15.svg') no-repeat center left;">Visitor Centers</button>
-			<button class="btn" value="toilets" style="background: url('icons/svgs-mono/toilet-15.svg') no-repeat center left;">Toilets</button>
+			<button class="btn" value="toilets" style="background: url('icons/svgs-mono/toilet-15.svg') no-repeat center left;">WC</button>
 		</div>
 
 		<br>
 		<div class="btn-group">
-			<button class="abc" value="rest" style="background: #969696; text-align: center; color: #ffffff;" onclick="refreshPage()">Reset</button>
+			<button class="abc" value="rest" style="background: #969696; text-align: center; color: #ffffff;" onclick="refreshTram()">Reset Tram Lines</button>
+		</div>
+		<div class="btn-group">
+			<button class="abc" value="rest" style="background: #969696; text-align: center; color: #ffffff;" onclick="refreshPage()">Reset All</button>
 		</div>
 	  </div>
     
@@ -102,6 +105,11 @@
 			.setLngLat([144.952776,-37.8181])
 			.addTo(map);
 
+		// tram routes attribute. Kept out because other functions need them.
+		var tramNums = ['1', '109', '11', '12', '16', '19', '3/3a', '30', '35', '48', '5', '57', '58', '59', '6', '64', '67', '70', '72', '75', '86', '96'];
+		var tramCol = ['#e2f2fe', '#cd91d4', '#be6cc6', '#7e2c85', '#4c8ab7', '#fe878b', '#b9defb', '#8a999f', '#4c4c4c', '#e8c8e9', '#6ebdf7', '#ca4a4f', '#fea2a6', '#fe4c53', '#a3d5f9', '#466a85', '#2c3d4c', '#fe921d', '#292929', '#fec281', '#5c9636', '#acdd8a'];
+		var tramOff = [4, 3, 0, 0, 5, -3, -1, 3, -3, 6, 2, -3, 0, 0, 0, -8, 10, -3, 13, 0, 0, -3];
+
 		map.on('load', function() {
 			var layerNames = ['tram-lines', 'tram-stops', 'toilets', 'rest', 'poi'];
 			var layerUrls = ['mapbox://penguinc2h6.dol2v9ij', 'mapbox://penguinc2h6.7d5wih18', 'mapbox://penguinc2h6.9e618tht', 'mapbox://penguinc2h6.6nf7sf5i', 'mapbox://penguinc2h6.cc5v5j0c'];
@@ -109,20 +117,20 @@
 			var layerTypes = ['line', 'symbol', 'symbol', 'symbol', 'symbol'];
 			var layerAttrs = ['PUBDESCSHT', '', '', 'Industry_1', 'classifica'];
 
+			// POI attributes
 			var poiNames = ['Top attraction', 'Museum & art gallery', 'Shopping center & market', 'Sight & landmark', 'Garden & park', 'Visitor centre', 'Railway station'];
 			var poiIcons = ['new-marker', 'new-museum', 'new-grocery', 'new-attraction', 'new-park', 'new-information', 'new-rail'];
 			var poiNames_out = ['topattraction', 'museum', 'shopping', 'sight', 'parks', 'visitorcentre', 'train'];
 			var poiOverlap = [true, true, true, true, true, true, true];
 			var poiVis = ['visible', 'none', 'none', 'visible', 'none', 'visible', 'none'];
 
+			// Eateries attributes
 			var restNames = ['Cafes and Restaurants', 'Pubs, Taverns and Bars', 'Accommodation'];//[4511, 4520, 4400];//
 			var restNames_out = ['restaurant', 'pub', 'hotel'];
 			var restIcons = ['new-restaurant', 'new-bar', 'new-lodging']
 			var restOverlap = [true, true, true];
 			var restVis = ['none', 'none', 'none'];
 
-			var trainNums = ['1', '109', '11', '12', '16', '19', '3/3a', '30', '35', '48', '5', '57', '58', '59', '6', '64', '67', '70', '72', '75', '86', '96'];
-			
 			var statusNames, statusIconCodes, statusIcons, statusOutput, cap, statusNames_out, statusOverlap, statusVis;
 
 			for (i = 0; i < layerNames.length; i++) {
@@ -154,11 +162,7 @@
 						cap = 1;
 						break;
 					case 'tram-lines':
-						statusNames = trainNums;
-						//statusIcons = restIcons;
-						//statusOutput = restNames_out;
-						//statusOverlap = restOverlap;
-						//statusVis = restVis;
+						statusNames = tramNums;
 						cap = statusNames.length;
 						break;
 					case 'tram-stops':
@@ -168,6 +172,7 @@
 				for (j = 0; j < cap; j++) {
 					var statusName, statusIcon, statusName_out, statuslap, vis;
 					if (layerName === 'toilets') {
+						// Public toilets layer
 						map.addLayer({
 							id: 'toilets',
 							type: 'symbol',
@@ -186,11 +191,8 @@
 							}
 						});
 					} else if (layerName === 'tram-lines') {
+						// tram lines layer
 						statusName = statusNames[j];
-						//statusIcon = statusIcons[j];
-						//statusName_out = statusNames_out[j];
-						//statuslap = statusOverlap[j];
-						//vis = statusVis[j];
 
 						map.addLayer({
 							id: statusName,
@@ -201,9 +203,10 @@
 							},
 							'source-layer': layerSource,
 							'paint': {
-								'line-color': '#F7455D',
-								'line-width': 2,
-								'line-opacity': 0.6
+								'line-color': tramCol[j],
+								'line-offset': tramOff[j],
+								'line-width': 3,
+								'line-opacity': 0.8
           					},
 							'layout': {
 								'visibility': 'none'
@@ -211,6 +214,7 @@
 							'filter': ['==', layerAttr, statusName]
 						});
 					} else if (layerName === 'tram-stops') {
+						// tram stops layer
 						map.addLayer({
 							id: 'tram',
 							type: 'symbol',
@@ -229,6 +233,7 @@
 							}
 						});
 					} else {
+						// all other
 						statusName = statusNames[j];
 						statusIcon = statusIcons[j];
 						statusName_out = statusNames_out[j];
@@ -260,6 +265,7 @@
 		var set3 = ["tram", "train", "taxi"];
 		var set4 = ["visitorcentre", "toilets"];
 
+		// show/hide layers with respect to category
 		var btns = document.getElementsByClassName("btn");
 		for (var i = 0; i < btns.length; i++) {
 			btns[i].addEventListener("click",
@@ -267,7 +273,8 @@
 					let clickedLayer = this.value;
 					e.preventDefault();
 					e.stopPropagation();
-
+					// Adjust button colours accordingly
+					// If: the layer is not active; else: layer is already active
 					if (this.className === "btn") {
 						this.className += " active";
 						if (set1.includes(clickedLayer) === true) {
@@ -286,6 +293,7 @@
 						this.style.color = "#404040";
 					}
 
+					// toggle the visiblity of the layer
 					var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
 					if (visibility !== 'none') {
 						map.setLayoutProperty(clickedLayer, 'visibility', 'none');
@@ -294,6 +302,7 @@
 					}
 				}
 			);
+			// hover effect on the buttons
 			btns[i].addEventListener("mouseenter",
 				function(event) {
 					if (this.className !== "btn") {
@@ -324,10 +333,11 @@
 
 		// show tram routes when a tram station is clicked
 		map.on('click', 'tram', function(event) {
-			var routes = event.features[0].properties.ROUTEUSSP.split(",");
+			var routes = event.features[0].properties.ROUTEUSSP.split(",").sort();
 			var test = "";
 			for (var i = 0; i < routes.length; i++) {
-				test += routes[i] + '<br>';
+				idx = tramNums.findIndex(route => route === routes[i])
+				test += '<div class="input-color"><input type="text" value=' + routes[i] +' /><div class="color-box" style="background-color: ' + tramCol[idx] + ';"></div></div>'
 				map.setLayoutProperty(routes[i], 'visibility', 'visible');
 			}
 
@@ -336,6 +346,23 @@
 			.setHTML('<b>' + event.features[0].properties.STOP_NAME+ '</b><br>' + test)
 			.addTo(map);
 		});
+
+		// show tram number on hover		
+		for (var i = 0; i < tramNums.length; i++) {
+			map.on('click', tramNums[i], function(event) {
+				new mapboxgl.Popup()
+				.setLngLat(event.lngLat)
+				.setHTML('<b>' + event.features[0].properties.PUBDESCSHT + '</b>')
+				.addTo(map);
+			});			
+		}
+
+		// refresh tram lines when reset is clicked
+		function refreshTram(){
+			for (var i = 0; i < tramNums.length; i++) {
+				map.setLayoutProperty(tramNums[i], 'visibility', 'none');
+			}
+		} 
 
 		// refresh page when reset is clicked
 		function refreshPage(){

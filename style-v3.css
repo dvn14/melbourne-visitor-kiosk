@@ -59,7 +59,24 @@ p {
 .mapboxgl-popup-content {
 	text-align: left;
 	font-family: 'Open Sans', sans-serif;
-	cursor: pointer;
+}
+
+.input-color {
+	position: relative;
+	border: none;
+}
+.input-color input {
+	padding-left: 20px;
+	border: none;
+}
+.input-color .color-box {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    background-color: #ccc;
+    position: absolute;
+    left: 5px;
+    top: 5px;
 }
 
 
@@ -77,7 +94,6 @@ p {
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
-	cursor: pointer;
 }
 
 .marker-attraction {
