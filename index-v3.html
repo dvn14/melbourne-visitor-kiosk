@@ -10,7 +10,7 @@
   
 
   
-  <body>
+  <body style="background-color: #f9f9f9;>
 	<!-- Mapbox Direction Panel -->
 	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
 	<link
@@ -40,11 +40,11 @@
 		  	<font style="font-size:13px">Attractions:</font>
 		</p>	  
 		<div class="btn-group">
-			<button class="btn active" value="topattraction" style="background: #1b9e77 url('icons/svgs-mono/star-15.svg') no-repeat center left;">Top Attractions</button>
-			<button class="btn active" value="sight" style="background: #1b9e77 url('icons/svgs-mono/attraction-15.svg') no-repeat center left;">Sights & Landmarks</button>
-			<button class="btn" value="museum" style="background: url('icons/svgs-mono/museum-15.svg') no-repeat center left;">Museum & Art Gallery</button>
-			<button class="btn" value="shopping" style="background: url('icons/svgs-mono/grocery-15.svg') no-repeat center left;">Shopping Centers</button>
-			<button class="btn" value="parks" style="background: url('icons/svgs-mono/park-15.svg') no-repeat center left;">Parks & Gardens</button>
+			<button class="btn active" value="topattraction" style="background: #969696 url('icons/svgs-coloured/new-star.svg') no-repeat center left;">Top Attractions</button>
+			<button class="btn active" value="sight" style="background: #969696 url('icons/svgs-coloured/new-attraction.svg') no-repeat center left;">Sights & Landmarks</button>
+			<button class="btn" value="museum" style="background: #ffffff url('icons/svgs-coloured/new-museum.svg') no-repeat center left;">Museum & Art Gallery</button>
+			<button class="btn" value="shopping" style="background: #ffffff url('icons/svgs-coloured/new-grocery.svg') no-repeat center left;">Shopping Centers</button>
+			<button class="btn" value="parks" style="background: #ffffff url('icons/svgs-coloured/new-park.svg') no-repeat center left;">Parks & Gardens</button>
 		</div>
 	  
 		<!-- Eateries and accomodation button class -->
@@ -52,9 +52,9 @@
 		  	<font style="font-size:13px">Eateries & Accommodation:</font>
 		</p>
 		<div class="btn-group">
-			<button class="btn" value="restaurant" style="background: url('icons/svgs-mono/restaurant-15.svg') no-repeat center left;">Restaurants & Cafes</button>
-			<button class="btn" value="pub" style="background: url('icons/svgs-mono/bar-15.svg') no-repeat center left;">Pubs</button>
-			<button class="btn" value="hotel" style="background: url('icons/svgs-mono/lodging-15.svg') no-repeat center left;">Hotels & Lodges</button>
+			<button class="btn" value="restaurant" style="background: #ffffff url('icons/svgs-coloured/new-restaurant.svg') no-repeat center left;">Restaurants & Cafes</button>
+			<button class="btn" value="pub" style="background: #ffffff url('icons/svgs-coloured/new-bar.svg') no-repeat center left;">Pubs</button>
+			<button class="btn" value="hotel" style="background: #ffffff url('icons/svgs-coloured/new-lodging.svg') no-repeat center left;">Hotels & Lodges</button>
 		</div>
 		
 		<!-- Public transport button class -->
@@ -62,9 +62,9 @@
 		  	<font style="font-size:13px">Public Transportation:</font>
 		</p>
 		<div class="btn-group">
-			<button class="btn" value="tram" style="background: url('icons/svgs-mono/rail-light-15.svg') no-repeat center left;">Tram Stops</button>
-			<button class="btn" value="train" style="background: url('icons/svgs-mono/rail-15.svg') no-repeat center left;">Train Stations</button>
-			<button class="btn" value="taxi" style="background: url('icons/svgs-mono/car-15.svg') no-repeat center left;">Taxi Ranks</button>
+			<button class="btn" value="tram" style="background: #ffffff url('icons/svgs-coloured/new-rail-light.svg') no-repeat center left;">Tram Stops</button>
+			<button class="btn" value="train" style="background: #ffffff url('icons/svgs-coloured/new-rail.svg') no-repeat center left;">Train Stations</button>
+			<button class="btn" value="taxi" style="background: #ffffff url('icons/svgs-coloured/new-car.svg') no-repeat center left;">Taxi Ranks</button>
 		</div>
 		
 		<!-- Public facilities button class -->
@@ -72,8 +72,8 @@
 		  	<font style="font-size:13px">Public Facilities:</font>
 		</p>
 		<div class="btn-group">
-			<button class="btn active" value="visitorcentre" style="background: #e7298a url('icons/svgs-mono/information-15.svg') no-repeat center left;">Visitor Centers</button>
-			<button class="btn" value="toilets" style="background: url('icons/svgs-mono/toilet-15.svg') no-repeat center left;">WC</button>
+			<button class="btn active" value="visitorcentre" style="background: #969696 url('icons/svgs-coloured/new-information.svg') no-repeat center left;">Visitor Centers</button>
+			<button class="btn" value="toilets" style="background: #ffffff url('icons/svgs-coloured/new-toilet.svg') no-repeat center left;">WC</button>
 		</div>
 
 		<!-- Reset button class -->
@@ -89,7 +89,10 @@
 		
 	
     <script>
-		mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2aW52aW51biIsImEiOiJja2VrNHRla3kwZDkyMnl0Nng4Nno1cGJmIn0.pAJqAvlrWzR-YyBY9YCYIg';
+		mapboxgl.accessToken = 'pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg';
+		// old
+		// pk.eyJ1IjoiZGV2aW52aW51biIsImEiOiJja2VrNHRla3kwZDkyMnl0Nng4Nno1cGJmIn0.pAJqAvlrWzR-YyBY9YCYIg
+		// 'mapbox://styles/devinvinun/ckgnwk4y417uc1appmwnngsj6',
 
 		// zoom bounds
 		var bounds = [[144.891962,-37.850929],	// Southwest coordinates
@@ -98,7 +101,7 @@
 		// loading basemap
 		var map = new mapboxgl.Map({
 			container: 'map',
-			style: 'mapbox://styles/devinvinun/ckgnwk4y417uc1appmwnngsj6',
+			style: 'mapbox://styles/penguinc2h6/ckglscl8m0ame1amsq2hcaau3/draft', 
 			center: [144.956351,-37.8155],//[144.96, -37.81],
 			zoom: 13.5,
 			maxBounds: bounds
@@ -115,14 +118,15 @@
 		var tramNums = ['1', '109', '11', '12', '16', '19', '3/3a', '30', '35', '48', '5', '57', '58', '59', '6', '64', '67', '70', '72', '75', '86', '96'];
 		var tramCol = ['#e2f2fe', '#cd91d4', '#be6cc6', '#7e2c85', '#4c8ab7', '#fe878b', '#b9defb', '#8a999f', '#4c4c4c', '#e8c8e9', '#6ebdf7', '#ca4a4f', '#fea2a6', '#fe4c53', '#a3d5f9', '#466a85', '#2c3d4c', '#fe921d', '#292929', '#fec281', '#5c9636', '#acdd8a'];
 		var tramOff = [4, 3, 0, 0, 5, -3, -1, 3, -3, 6, 2, -3, 3, 0, 0, -8, 10, -3, 13, 0, 0, -3];
+		var tramOpac = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.7, 0.7, 0.7, 1, 1, 1];
 
 		map.on('load', function() {
 			// Listing all data sources for layers
 			var layerNames = ['tram-lines', 'tram-stops', 'taxi', 'toilets', 'rest', 'poi'];
-			var layerUrls = ['mapbox://penguinc2h6.7rmpnbv8', 'mapbox://penguinc2h6.7d5wih18', 'mapbox://penguinc2h6.4mqx7jah', 'mapbox://penguinc2h6.9e618tht', 'mapbox://penguinc2h6.0z2dafws', 'mapbox://penguinc2h6.cc5v5j0c'];
-			var layerSources = ['Allroute-4py4ll', 'TramStop_Clip-a2ksko', 'TaxiRank-cm9qkk', 'PublicToilet-8rkacx', 'Restaurant_ver-7ysd8o', 'POI_Reclassifiedl-57uvpr'];
+			var layerUrls = ['mapbox://penguinc2h6.7rmpnbv8', 'mapbox://penguinc2h6.7d5wih18', 'mapbox://penguinc2h6.4mqx7jah', 'mapbox://penguinc2h6.9e618tht', 'mapbox://penguinc2h6.0z2dafws', 'mapbox://penguinc2h6.1tz5htzn'];
+			var layerSources = ['Allroute-4py4ll', 'TramStop_Clip-a2ksko', 'TaxiRank-cm9qkk', 'PublicToilet-8rkacx', 'Restaurant_ver-7ysd8o', 'POIs_vFINAL-bkjmqv'];
 			var layerTypes = ['line', 'symbol', 'symbol', 'symbol', 'symbol', 'symbol'];
-			var layerAttrs = ['PUBDESCSHT', '', '', '', 'Industry (ANZSIC4) description', 'classifica'];
+			var layerAttrs = ['PUBDESCSHT', '', '', '', 'Industry (ANZSIC4) description', 'classification'];
 
 			// POI attributes
 			var poiNames = ['Top attraction', 'Museum & art gallery', 'Shopping center & market', 'Sight & landmark', 'Garden & park', 'Visitor centre', 'Railway station'];
@@ -192,7 +196,7 @@
 							},
 							'source-layer': layerSource,
 							'paint': {
-								'icon-opacity': 0.6
+								'icon-opacity': 0.8
           					},
 							'layout': {
 								'icon-allow-overlap': true,
@@ -234,8 +238,8 @@
 							'paint': {
 								'line-color': tramCol[j],
 								'line-offset': tramOff[j],
-								'line-width': 3,
-								'line-opacity': 1
+								'line-width': 2,
+								'line-opacity': tramOpac[j]
           					},
 							'layout': {
 								'visibility': 'none'
@@ -258,7 +262,7 @@
 								'icon-image': 'new-rail-light'
 							},
 							'paint': {
-								'icon-opacity': 1
+								'icon-opacity': 0.7
 							}
 						});
 					} else {
@@ -284,6 +288,92 @@
 							},
 							'filter': ['==', layerAttr, statusName]
 						});
+
+						map.on('click', statusName_out, function(e) {
+                            if(e.features[0].sourceLayer == 'POIs_vFINAL-bkjmqv'){
+                                console.log(e.features[0]);
+                                var str = e.features[0].properties.location;
+                                if(str!=""){
+                                    var arr_1 = str.split("[");
+                                    var arr_2 = arr_1[1].split("]");
+                                    var address = arr_2[0].replace(/'/g, '');
+                                    if(e.features[0].properties.image_url==""){
+                                        new mapboxgl.Popup()
+                                        // the script in step 3 below must go in here
+                                        .setLngLat(e.lngLat)
+                                        .setHTML('<img src="img/no image found.jpg" width="200" height="200">'+'<br>'+
+                                        '<h2>'+e.features[0].properties.Feature_Na+'</h2>'+
+                                        '<p2><b>Rating</b>: </p2><h2>'+e.features[0].properties.rating+'/5</h2>'+
+                                        '<p2><b>Address</b>: '+address+'</p2><br>'+
+                                        '<p2><b>Tel</b>: '+e.features[0].properties.display_phone+'</p2>')
+                                        .addTo(map)
+                                    }else{
+                                        console.log(e.features[0].properties.image_url)
+                                        new mapboxgl.Popup()
+                                        // the script in step 3 below must go in here
+                                        .setLngLat(e.lngLat)
+                                        .setHTML('<img src="'+ e.features[0].properties.image_url + '" width="200" height="200"'+'<br>'+
+                                        '<h2>'+e.features[0].properties.Feature_Na+'</h2>'+
+                                        '<p2><b>Rating</b>: </p2><h2>'+e.features[0].properties.rating+'/5</h2>'+
+                                        '<p2><b>Address</b>: '+address+'</p2><br>'+
+                                        '<p2><b>Phone</b>: '+e.features[0].properties.display_phone+'</p2>')
+                                        .addTo(map)
+                                    }
+                                }
+                                else{
+                                    if(e.features[0].properties.image_url==""){
+                                        new mapboxgl.Popup()
+                                        // the script in step 3 below must go in here
+                                        .setLngLat(e.lngLat)
+                                        .setHTML('<img src="img/no image found.jpg" width="200" height="200">'+'<br>'+
+                                        '<h2>'+e.features[0].properties.Feature_Na+'</h2>'+
+                                        '<p2><b>Rating</b>: </p2><h2>'+e.features[0].properties.rating+'/5</h2>'+
+                                        '<p2><b>Address</b>: Sorry, no address available</p2><br>'+
+                                        '<p2><b>Phone</b>: '+e.features[0].properties.display_phone+'</p2>')
+                                        .addTo(map)
+                                    }else{
+                                        console.log(e.features[0].properties.image_url)
+                                        new mapboxgl.Popup()
+                                        // the script in step 3 below must go in here
+                                        .setLngLat(e.lngLat)
+                                        .setHTML('<img src="'+ e.features[0].properties.image_url + '" width="200" height="200"'+'<br>'+
+                                        '<h2>'+e.features[0].properties.Feature_Na+'</h2>'+
+                                        '<p2><b>Rating</b>: </p2><h2>'+e.features[0].properties.rating+'/5</h2>'+
+                                        '<p2><b>Address</b>: Sorry, no address available</p2><br>'+
+                                        '<p2><b>Phone</b>: '+e.features[0].properties.display_phone+'</p2>')
+                                        .addTo(map)
+                                    }
+                                }
+                                
+                            }
+
+                            else if(e.features[0].sourceLayer == 'Restaurant_ver-7ysd8o'){
+                                console.log(e.features[0]);
+                                // var trading_name=e.features[0].properties.Trading name;
+                                if(e.features[0].properties.image_url==""){
+                                    new mapboxgl.Popup()
+                                    // the script in step 3 below must go in here
+                                    .setLngLat(e.lngLat)
+                                    .setHTML('<img src="img/no image found.jpg" width="200" height="200">'+'<br>'+
+                                    '<h2>'+e.features[0].properties["Trading name"]+'</h2>'+
+                                    '<p2><b>Rating</b>: </p2><h2>'+e.features[0].properties.rating+'/5</h2>'+
+                                    '<p2><b>Address</b>: '+e.features[0].properties["Street address"]+'</p2><br>'+
+                                    '<p2><b>Phone</b>: '+e.features[0].properties.display_phone+'</p2>')
+                                    .addTo(map)
+                                }else{
+                                    console.log(e.features[0].properties.image_url)
+                                    new mapboxgl.Popup()
+                                    // the script in step 3 below must go in here
+                                    .setLngLat(e.lngLat)
+                                    .setHTML('<img src="'+ e.features[0].properties.image_url + '" width="200" height="200"'+'<br>'+
+                                    '<h2>'+e.features[0].properties["Trading name"]+'</h2>'+
+                                    '<p2><b>Rating</b>: </p2><h2>'+e.features[0].properties.rating+'/5</h2>'+
+                                    '<p2><b>Address</b>: '+e.features[0].properties["Street address"]+'</p2><br>'+
+                                    '<p2><b>Phone</b>: '+e.features[0].properties.display_phone+'</p2>')
+                                    .addTo(map)
+                                }
+                            }
+                        });
 					}
 				}
 			}
@@ -307,15 +397,17 @@
 					// If: the layer is not active; else: layer is already active
 					if (this.className === "btn") {
 						this.className += " active";
+						/*
 						if (set1.includes(clickedLayer) === true) {
-							this.style.backgroundColor = "#1b9e77";
+							this.style.backgroundColor = "#ff5c00";
 						} else if (set2.includes(clickedLayer) === true) {
-							this.style.backgroundColor = "#d95f02";
+							this.style.backgroundColor = "#ffc425";
 						} else if (set3.includes(clickedLayer) === true) {
-							this.style.backgroundColor = "#7570b3";
+							this.style.backgroundColor = "#2039cf";
 						} else {
 							this.style.backgroundColor = "#e7298a";
-						}
+						}*/
+						this.style.backgroundColor = "#969696";
 						this.style.color = "#ffffff";
 					} else {
 						this.className = this.className.replace(" active", "");
