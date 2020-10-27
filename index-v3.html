@@ -28,7 +28,7 @@
 	<div class="map-overlay" id="title">
 		<!-- Title and Greeting -->
 		<p>
-			<font style="font-weight:bold"> Welcome to Melbourne</font>
+			<font style="font-weight:bold"> Welcome to Melbourne City</font>
 		</p>
 		<p>
 			<img src="img/pin-you-are-here.png" style="height:12px;" id='test'>
@@ -454,9 +454,9 @@
 		var nav = new mapboxgl.NavigationControl();
 		map.addControl(nav, 'bottom-left');
 
-		// show taxi rank location description on click	
+		// show taxi rank location description on click
 		map.on('click', 'taxi', function(event) {
-			var tmp = '<b>' + event.features[0].properties.loc_desc + '</b>'
+			var tmp = '<h3>Taxi Rank</h3><b>' + event.features[0].properties.loc_desc + '</b>'
 			tmp += '<br>Available late night: ' + event.features[0].properties.night_only;
 
 			new mapboxgl.Popup()
@@ -468,7 +468,7 @@
 		// show details about the water closets	
 		map.on('click', 'toilets', function(event) {
 			var icons = "<br>";
-			var text = "";
+			var text = "<h3>Public Toilet</h3>";
 
 			male = event.features[0].properties.male.toLowerCase();
 			female = event.features[0].properties.female.toLowerCase();
@@ -525,7 +525,7 @@
 
 			new mapboxgl.Popup()
 			.setLngLat(event.lngLat)
-			.setHTML('<b>' + event.features[0].properties.STOP_NAME+ '</b><br>' + tmp)
+			.setHTML('<h3>Tram Stop</h3><b>' + event.features[0].properties.STOP_NAME+ '</b><br><br><b>Passing routes</b>:' + tmp)
 			.addTo(map);
 		});
 
@@ -534,7 +534,7 @@
 			map.on('click', tramNums[i], function(event) {
 				new mapboxgl.Popup()
 				.setLngLat(event.lngLat)
-				.setHTML('<b>' + event.features[0].properties.PUBDESCSHT + '</b>')
+				.setHTML('<b>Tram Route: </b>' + event.features[0].properties.PUBDESCSHT)
 				.addTo(map);
 			});			
 		}
