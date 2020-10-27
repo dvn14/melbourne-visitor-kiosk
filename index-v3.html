@@ -34,18 +34,20 @@
 			<img src="img/pin-you-are-here.png" style="height:12px;" id='test'>
 		  	<font style="font-size:13px">You are at <font style="font-weight:bold">Southern Cross station</font></font>
 		</p>
+
+		<!-- Attractions button class -->
 		<p>
 		  	<font style="font-size:13px">Attractions:</font>
-		</p>
-	  
+		</p>	  
 		<div class="btn-group">
-			<button class="btn active" value="topattraction" style="background: #1b9e77 url('icons/svgs-mono/marker-15.svg') no-repeat center left;">Top Attractions</button>
+			<button class="btn active" value="topattraction" style="background: #1b9e77 url('icons/svgs-mono/star-15.svg') no-repeat center left;">Top Attractions</button>
+			<button class="btn active" value="sight" style="background: #1b9e77 url('icons/svgs-mono/attraction-15.svg') no-repeat center left;">Sights & Landmarks</button>
 			<button class="btn" value="museum" style="background: url('icons/svgs-mono/museum-15.svg') no-repeat center left;">Museum & Art Gallery</button>
 			<button class="btn" value="shopping" style="background: url('icons/svgs-mono/grocery-15.svg') no-repeat center left;">Shopping Centers</button>
-			<button class="btn active" value="sight" style="background: #1b9e77 url('icons/svgs-mono/attraction-15.svg') no-repeat center left;">Sight & Landmarks</button>
 			<button class="btn" value="parks" style="background: url('icons/svgs-mono/park-15.svg') no-repeat center left;">Parks & Gardens</button>
 		</div>
 	  
+		<!-- Eateries and accomodation button class -->
 		<p>
 		  	<font style="font-size:13px">Eateries & Accommodation:</font>
 		</p>
@@ -54,7 +56,8 @@
 			<button class="btn" value="pub" style="background: url('icons/svgs-mono/bar-15.svg') no-repeat center left;">Pubs</button>
 			<button class="btn" value="hotel" style="background: url('icons/svgs-mono/lodging-15.svg') no-repeat center left;">Hotels & Lodges</button>
 		</div>
-	  
+		
+		<!-- Public transport button class -->
 		<p>
 		  	<font style="font-size:13px">Public Transportation:</font>
 		</p>
@@ -63,7 +66,8 @@
 			<button class="btn" value="train" style="background: url('icons/svgs-mono/rail-15.svg') no-repeat center left;">Train Stations</button>
 			<button class="btn" value="taxi" style="background: url('icons/svgs-mono/car-15.svg') no-repeat center left;">Taxi Ranks</button>
 		</div>
-	  
+		
+		<!-- Public facilities button class -->
 		<p>
 		  	<font style="font-size:13px">Public Facilities:</font>
 		</p>
@@ -72,6 +76,7 @@
 			<button class="btn" value="toilets" style="background: url('icons/svgs-mono/toilet-15.svg') no-repeat center left;">WC</button>
 		</div>
 
+		<!-- Reset button class -->
 		<br>
 		<div class="btn-group">
 			<button class="abc" value="rest" style="background: #969696; text-align: center; color: #ffffff;" onclick="refreshTram()">Reset Tram Lines</button>
@@ -90,10 +95,11 @@
 		var bounds = [[144.891962,-37.850929],	// Southwest coordinates
 					  [144.99386,-37.770209]];	// Northeast coordinates
 
+		// loading basemap
 		var map = new mapboxgl.Map({
 			container: 'map',
 			style: 'mapbox://styles/devinvinun/ckgnwk4y417uc1appmwnngsj6',
-			center: [144.96, -37.81],
+			center: [144.956351,-37.8155],//[144.96, -37.81],
 			zoom: 13.5,
 			maxBounds: bounds
 		});
@@ -108,18 +114,19 @@
 		// tram routes attribute. Kept out because other functions need them.
 		var tramNums = ['1', '109', '11', '12', '16', '19', '3/3a', '30', '35', '48', '5', '57', '58', '59', '6', '64', '67', '70', '72', '75', '86', '96'];
 		var tramCol = ['#e2f2fe', '#cd91d4', '#be6cc6', '#7e2c85', '#4c8ab7', '#fe878b', '#b9defb', '#8a999f', '#4c4c4c', '#e8c8e9', '#6ebdf7', '#ca4a4f', '#fea2a6', '#fe4c53', '#a3d5f9', '#466a85', '#2c3d4c', '#fe921d', '#292929', '#fec281', '#5c9636', '#acdd8a'];
-		var tramOff = [4, 3, 0, 0, 5, -3, -1, 3, -3, 6, 2, -3, 0, 0, 0, -8, 10, -3, 13, 0, 0, -3];
+		var tramOff = [4, 3, 0, 0, 5, -3, -1, 3, -3, 6, 2, -3, 3, 0, 0, -8, 10, -3, 13, 0, 0, -3];
 
 		map.on('load', function() {
-			var layerNames = ['tram-lines', 'tram-stops', 'toilets', 'rest', 'poi'];
-			var layerUrls = ['mapbox://penguinc2h6.dol2v9ij', 'mapbox://penguinc2h6.7d5wih18', 'mapbox://penguinc2h6.9e618tht', 'mapbox://penguinc2h6.0z2dafws', 'mapbox://penguinc2h6.cc5v5j0c'];
-			var layerSources = ['TramRoute_Trimmed-6zjjgo', 'TramStop_Clip-a2ksko', 'PublicToilet-8rkacx', 'Restaurant_ver-7ysd8o', 'POI_Reclassifiedl-57uvpr'];
-			var layerTypes = ['line', 'symbol', 'symbol', 'symbol', 'symbol'];
-			var layerAttrs = ['PUBDESCSHT', '', '', 'Industry (ANZSIC4) description', 'classifica'];
+			// Listing all data sources for layers
+			var layerNames = ['tram-lines', 'tram-stops', 'taxi', 'toilets', 'rest', 'poi'];
+			var layerUrls = ['mapbox://penguinc2h6.7rmpnbv8', 'mapbox://penguinc2h6.7d5wih18', 'mapbox://penguinc2h6.4mqx7jah', 'mapbox://penguinc2h6.9e618tht', 'mapbox://penguinc2h6.0z2dafws', 'mapbox://penguinc2h6.cc5v5j0c'];
+			var layerSources = ['Allroute-4py4ll', 'TramStop_Clip-a2ksko', 'TaxiRank-cm9qkk', 'PublicToilet-8rkacx', 'Restaurant_ver-7ysd8o', 'POI_Reclassifiedl-57uvpr'];
+			var layerTypes = ['line', 'symbol', 'symbol', 'symbol', 'symbol', 'symbol'];
+			var layerAttrs = ['PUBDESCSHT', '', '', '', 'Industry (ANZSIC4) description', 'classifica'];
 
 			// POI attributes
 			var poiNames = ['Top attraction', 'Museum & art gallery', 'Shopping center & market', 'Sight & landmark', 'Garden & park', 'Visitor centre', 'Railway station'];
-			var poiIcons = ['new-marker', 'new-museum', 'new-grocery', 'new-attraction', 'new-park', 'new-information', 'new-rail'];
+			var poiIcons = ['new-star', 'new-museum', 'new-grocery', 'new-attraction', 'new-park', 'new-information', 'new-rail'];
 			var poiNames_out = ['topattraction', 'museum', 'shopping', 'sight', 'parks', 'visitorcentre', 'train'];
 			var poiOverlap = [true, true, true, true, true, true, true];
 			var poiVis = ['visible', 'none', 'none', 'visible', 'none', 'visible', 'none'];
@@ -166,6 +173,9 @@
 						cap = statusNames.length;
 						break;
 					case 'tram-stops':
+						cap = 1;
+						break;
+					case 'taxi':
 						cap = 1;					
 				}
 
@@ -188,6 +198,25 @@
 								'icon-allow-overlap': true,
 								'visibility': 'none',
 								'icon-image': 'new-toilet'
+							}
+						});
+					} else if (layerName === 'taxi') {
+						// Public toilets layer
+						map.addLayer({
+							id: 'taxi',
+							type: 'symbol',
+							source: {
+								type: 'vector',
+								url: layerUrl
+							},
+							'source-layer': layerSource,
+							'paint': {
+								'icon-opacity': 1
+          					},
+							'layout': {
+								'icon-allow-overlap': true,
+								'visibility': 'none',
+								'icon-image': 'new-car'
 							}
 						});
 					} else if (layerName === 'tram-lines') {
@@ -229,11 +258,11 @@
 								'icon-image': 'new-rail-light'
 							},
 							'paint': {
-								'icon-opacity': 0.6
+								'icon-opacity': 1
 							}
 						});
 					} else {
-						// all other
+						// all other layers
 						statusName = statusNames[j];
 						statusIcon = statusIcons[j];
 						statusName_out = statusNames_out[j];
@@ -260,6 +289,7 @@
 			}
 		});
 
+		// grouping categories
 		var set1 = ["topattraction", "museum", "history", "shopping", "sight", "parks", "zoo"];
 		var set2 = ["topeateries", "restaurant", "pub", "hotel"];
 		var set3 = ["tram", "train", "taxi"];
@@ -302,7 +332,7 @@
 					}
 				}
 			);
-			// hover effect on the buttons
+			// hover effect on the buttons - when the mouse enter
 			btns[i].addEventListener("mouseenter",
 				function(event) {
 					if (this.className !== "btn") {
@@ -314,6 +344,7 @@
 					}
 				}
 			);
+			// hover effect on the buttons - when the mouse leave
 			btns[i].addEventListener("mouseleave",
 				function(event) {
 					if (this.className !== "btn") {
@@ -329,25 +360,84 @@
 
 		// show zoom and navigation control
 		var nav = new mapboxgl.NavigationControl();
-		map.addControl(nav, 'bottom-left');		
+		map.addControl(nav, 'bottom-left');
+
+		// show taxi rank location description on click	
+		map.on('click', 'taxi', function(event) {
+			var tmp = '<b>' + event.features[0].properties.loc_desc + '</b>'
+			tmp += '<br>Available late night: ' + event.features[0].properties.night_only;
+
+			new mapboxgl.Popup()
+			.setLngLat(event.lngLat)
+			.setHTML(tmp)
+			.addTo(map);
+		});
+
+		// show details about the water closets	
+		map.on('click', 'toilets', function(event) {
+			var icons = "<br>";
+			var text = "";
+
+			male = event.features[0].properties.male.toLowerCase();
+			female = event.features[0].properties.female.toLowerCase();
+			baby = event.features[0].properties.baby_facil.toLowerCase();
+			wheelchair = event.features[0].properties.wheelchair.toLowerCase()
+
+			if (male === "u") {
+				text += "Unisex<br>";
+			} else if (male === "yes") {
+				if (female === "yes") {
+					text += "Male & Female<br>";
+				}
+				else {
+					text += "Male only<br>";
+				}
+			} else {
+				text += "Female only<br>";
+			}
+
+			if (wheelchair !== "no") {
+				text += "Wheelchair accessible<br>";
+				icons += '<img src="icons/svgs-coloured/disable.svg" style="width:15px"> '
+			} else {
+				text += "No wheelchair access<br>";
+			}
+
+			if (baby !== "no") {
+				text += "Baby facilities";
+				icons += '<img src="icons/svgs-coloured/baby.svg" style="width:15px">'
+			} else {
+				text += "No baby facilities";
+			}
+
+			var tmp = text;
+			if (icons !== "<br>") {
+				tmp += icons;
+			}
+
+			new mapboxgl.Popup()
+			.setLngLat(event.lngLat)
+			.setHTML(tmp)
+			.addTo(map);
+		});	
 
 		// show tram routes when a tram station is clicked
 		map.on('click', 'tram', function(event) {
 			var routes = event.features[0].properties.ROUTEUSSP.split(",").sort();
-			var test = "";
+			var tmp = "";
 			for (var i = 0; i < routes.length; i++) {
 				idx = tramNums.findIndex(route => route === routes[i])
-				test += '<div class="input-color"><input type="text" value=' + routes[i] +' /><div class="color-box" style="background-color: ' + tramCol[idx] + ';"></div></div>'
+				tmp += '<div class="input-color"><input type="text" value=' + routes[i] +' /><div class="color-box" style="background-color: ' + tramCol[idx] + ';"></div></div>'
 				map.setLayoutProperty(routes[i], 'visibility', 'visible');
 			}
 
 			new mapboxgl.Popup()
 			.setLngLat(event.lngLat)
-			.setHTML('<b>' + event.features[0].properties.STOP_NAME+ '</b><br>' + test)
+			.setHTML('<b>' + event.features[0].properties.STOP_NAME+ '</b><br>' + tmp)
 			.addTo(map);
 		});
 
-		// show tram number on hover		
+		// show tram line number on click		
 		for (var i = 0; i < tramNums.length; i++) {
 			map.on('click', tramNums[i], function(event) {
 				new mapboxgl.Popup()
