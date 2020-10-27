@@ -3,7 +3,7 @@
   <head>
 	<meta charset="utf-8" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet">
+	<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
   
   </head>
@@ -11,246 +11,481 @@
 
   
   <body>
-
-    <div id="map"></div>
+	<!-- Mapbox Direction Panel -->
+	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+	<link
+		rel="stylesheet"
+		href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
+		type="text/css"
+	/>
+    
+	
+	<!-- Mapbox Map Panel -->
+	<div id="map"></div>
+	
+	
+	<!-- Top Filter Menu -->
 	<div class="map-overlay" id="title">
-		<h2>Welcome to Melbourne</h2>
-		<div id="info">
-			<p>Hover over a POI!</p>
+		<!-- Title and Greeting -->
+		<p>
+			<font style="font-weight:bold"> Welcome to Melbourne</font>
+		</p>
+		<p>
+			<img src="img/pin-you-are-here.png" style="height:12px;" id='test'>
+		  	<font style="font-size:13px">You are at <font style="font-weight:bold">Southern Cross station</font></font>
+		</p>
+		<p>
+		  	<font style="font-size:13px">Attractions:</font>
+		</p>
+	  
+		<div class="btn-group">
+			<button class="btn active" value="topattraction" style="background: #1b9e77 url('icons/svgs-mono/marker-15.svg') no-repeat center left;">Top Attractions</button>
+			<button class="btn" value="museum" style="background: url('icons/svgs-mono/museum-15.svg') no-repeat center left;">Museum & Art Gallery</button>
+			<button class="btn" value="shopping" style="background: url('icons/svgs-mono/grocery-15.svg') no-repeat center left;">Shopping Centers</button>
+			<button class="btn active" value="sight" style="background: #1b9e77 url('icons/svgs-mono/attraction-15.svg') no-repeat center left;">Sight & Landmarks</button>
+			<button class="btn" value="parks" style="background: url('icons/svgs-mono/park-15.svg') no-repeat center left;">Parks & Gardens</button>
 		</div>
-	</div>
+	  
+		<p>
+		  	<font style="font-size:13px">Eateries & Accommodation:</font>
+		</p>
+		<div class="btn-group">
+			<button class="btn" value="restaurant" style="background: url('icons/svgs-mono/restaurant-15.svg') no-repeat center left;">Restaurants & Cafes</button>
+			<button class="btn" value="pub" style="background: url('icons/svgs-mono/bar-15.svg') no-repeat center left;">Pubs</button>
+			<button class="btn" value="hotel" style="background: url('icons/svgs-mono/lodging-15.svg') no-repeat center left;">Hotels & Lodges</button>
+		</div>
+	  
+		<p>
+		  	<font style="font-size:13px">Public Transportation:</font>
+		</p>
+		<div class="btn-group">
+			<button class="btn" value="tram" style="background: url('icons/svgs-mono/rail-light-15.svg') no-repeat center left;">Tram Stops</button>
+			<button class="btn" value="train" style="background: url('icons/svgs-mono/rail-15.svg') no-repeat center left;">Train Stations</button>
+			<button class="btn" value="taxi" style="background: url('icons/svgs-mono/car-15.svg') no-repeat center left;">Taxi Ranks</button>
+		</div>
+	  
+		<p>
+		  	<font style="font-size:13px">Public Facilities:</font>
+		</p>
+		<div class="btn-group">
+			<button class="btn active" value="visitorcentre" style="background: #e7298a url('icons/svgs-mono/information-15.svg') no-repeat center left;">Visitor Centers</button>
+			<button class="btn" value="toilets" style="background: url('icons/svgs-mono/toilet-15.svg') no-repeat center left;">WC</button>
+		</div>
 
-	<nav id="button"></nav>
+		<br>
+		<div class="btn-group">
+			<button class="abc" value="rest" style="background: #969696; text-align: center; color: #ffffff;" onclick="refreshTram()">Reset Tram Lines</button>
+		</div>
+		<div class="btn-group">
+			<button class="abc" value="rest" style="background: #969696; text-align: center; color: #ffffff;" onclick="refreshPage()">Reset All</button>
+		</div>
+	  </div>
+    
+		
 	
     <script>
-		// mapboxgl.accessToken = 'pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg';
-
-		// var bounds = [ // City of Melbourne's bounds
-		// 		[-37.854428, 144.897845], // Southwest coordinates
-		// 		[-37.776493, 145.019147] // Northeast coordinates
-		// 	];
-
-
-		// var map = new mapboxgl.Map({
-		// 	container: 'map',
-		// 	style: 'mapbox://styles/penguinc2h6/ckfus8d6g5z0q19k2db7mkxui/draft',
-		// 	//center: [-37.814,144.961],
-		// 	//zoom: 12,
-		// 	//maxBounds: bounds // Sets bounds as max
-		// });
-		
-		/*
-token: pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg
-style: mapbox://styles/penguinc2h6/ckfus8d6g5z0q19k2db7mkxui/draft
-*/
-
 		mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2aW52aW51biIsImEiOiJja2VrNHRla3kwZDkyMnl0Nng4Nno1cGJmIn0.pAJqAvlrWzR-YyBY9YCYIg';
+
+		// zoom bounds
+		var bounds = [[144.891962,-37.850929],	// Southwest coordinates
+					  [144.99386,-37.770209]];	// Northeast coordinates
+
 		var map = new mapboxgl.Map({
-		container: 'map',
-		style: 'mapbox://styles/devinvinun/ckg8yyuy50hn519nju5tthh8i',
-		center: [144.96, -37.81],
-		zoom: 12
+			container: 'map',
+			style: 'mapbox://styles/devinvinun/ckgnwk4y417uc1appmwnngsj6',
+			center: [144.96, -37.81],
+			zoom: 13.5,
+			maxBounds: bounds
 		});
 
+		//Add You-Are-Here Marker
+		var yah_marker = document.createElement('div');
+		yah_marker.className = 'marker-youarehere';
+		new mapboxgl.Marker(yah_marker)
+			.setLngLat([144.952776,-37.8181])
+			.addTo(map);
+
+		// tram routes attribute. Kept out because other functions need them.
+		var tramNums = ['1', '109', '11', '12', '16', '19', '3/3a', '30', '35', '48', '5', '57', '58', '59', '6', '64', '67', '70', '72', '75', '86', '96'];
+		var tramCol = ['#e2f2fe', '#cd91d4', '#be6cc6', '#7e2c85', '#4c8ab7', '#fe878b', '#b9defb', '#8a999f', '#4c4c4c', '#e8c8e9', '#6ebdf7', '#ca4a4f', '#fea2a6', '#fe4c53', '#a3d5f9', '#466a85', '#2c3d4c', '#fe921d', '#292929', '#fec281', '#5c9636', '#acdd8a'];
+		var tramOff = [4, 3, 0, 0, 5, -3, -1, 3, -3, 6, 2, -3, 0, 0, 0, -8, 10, -3, 13, 0, 0, -3];
+
 		map.on('load', function() {
-			var layerNames = ['poi', 'rest', 'tram'];
-			var layerUrls = ['mapbox://penguinc2h6.7m71ym0m', 'mapbox://penguinc2h6.d31bqmxn', 'mapbox://penguinc2h6.3hwm8bk2'];
-			var layerSources = ['POI-08he71', 'InfoVisual-17q3aw', 'TramRoute-3sb9xp'];
-			var buttonColors = ['#3887be', '#33a02c', '#e31a1c'];
-			var layerTypes = ['symbol', 'symbol', 'line'];
-			var layerAttrs = ['Sub_Theme', 'Industry__', 'OBJECTID'];
+			var layerNames = ['tram-lines', 'tram-stops', 'toilets', 'rest', 'poi'];
+			var layerUrls = ['mapbox://penguinc2h6.dol2v9ij', 'mapbox://penguinc2h6.7d5wih18', 'mapbox://penguinc2h6.9e618tht', 'mapbox://penguinc2h6.0z2dafws', 'mapbox://penguinc2h6.cc5v5j0c'];
+			var layerSources = ['TramRoute_Trimmed-6zjjgo', 'TramStop_Clip-a2ksko', 'PublicToilet-8rkacx', 'Restaurant_ver-7ysd8o', 'POI_Reclassifiedl-57uvpr'];
+			var layerTypes = ['line', 'symbol', 'symbol', 'symbol', 'symbol'];
+			var layerAttrs = ['PUBDESCSHT', '', '', 'Industry (ANZSIC4) description', 'classifica'];
 
-			var poiNames = ['Cinema', 'Retail', 'Art Gallery/Museum', 'Aquarium'];
-			var poiIconCodes = ['\uf03d', '\uf07a', '\uf19c', '\uf1b0'];
-			var poiIcons = ['cinema', 'grocery', 'town-hall', 'veterinary'];
-			var poiNames_out = ['Cinema', 'Shopping', 'Museum/Art Gallery', 'Aquarium'];
-			var poiOverlap = [true, true, true, true]
+			// POI attributes
+			var poiNames = ['Top attraction', 'Museum & art gallery', 'Shopping center & market', 'Sight & landmark', 'Garden & park', 'Visitor centre', 'Railway station'];
+			var poiIcons = ['new-marker', 'new-museum', 'new-grocery', 'new-attraction', 'new-park', 'new-information', 'new-rail'];
+			var poiNames_out = ['topattraction', 'museum', 'shopping', 'sight', 'parks', 'visitorcentre', 'train'];
+			var poiOverlap = [true, true, true, true, true, true, true];
+			var poiVis = ['visible', 'none', 'none', 'visible', 'none', 'visible', 'none'];
 
-			var restNames = ['Cafes and Restaurants', 'Pubs, Taverns and Bars', 'Accommodation'];
-			var restNames_out = ['Cafe/Restaurant', 'Bar', 'Hotel'];
-			var restIconCodes = ['\uf0f5', '\uf000', '\uf236'];
-			var restIcons = ['restaurant', 'bar', 'lodging']
-			var restOverlap = [false, false, false]
+			// Eateries attributes
+			var restNames = ['Cafes and Restaurants', 'Pubs, Taverns and Bars', 'Accommodation'];//[4511, 4520, 4400];//
+			var restNames_out = ['restaurant', 'pub', 'hotel'];
+			var restIcons = ['new-restaurant', 'new-bar', 'new-lodging']
+			var restOverlap = [false, false, false];
+			var restVis = ['none', 'none', 'none'];
 
-			var statusNames, statusIconCodes, statusIcons, statusOutput, cap, statusNames_out, statusOverlap;
+			var statusNames, statusIconCodes, statusIcons, statusOutput, cap, statusNames_out, statusOverlap, statusVis;
 
 			for (i = 0; i < layerNames.length; i++) {
 				var layerName = layerNames[i];
 				var layerUrl = layerUrls[i];
 				var layerSource = layerSources[i];
-				var buttonColor = buttonColors[i];
 				var layerType = layerTypes[i];
 				var layerAttr = layerAttrs[i];
 				switch (layerName) {
-				case 'poi':
-					statusNames = poiNames;
-					statusNames_out = poiNames_out;
-					statusIconCodes = poiIconCodes;
-					statusIcons = poiIcons;
-					statusOutput = poiNames_out;
-					statusOverlap = poiOverlap;
-					cap = statusNames.length;
-					break;
-				case 'rest':
-					statusNames = restNames;
-					statusNames_out = restNames_out;
-					statusIconCodes = restIconCodes;
-					statusIcons = restIcons;
-					statusOutput = restNames_out;
-					statusOverlap = restOverlap;
-					cap = statusNames.length;
-					break;
-				case 'tram':
-					cap = 1;
+					case 'poi':
+						statusNames = poiNames;
+						statusNames_out = poiNames_out;
+						statusIcons = poiIcons;
+						statusOutput = poiNames_out;
+						statusOverlap = poiOverlap;
+						statusVis = poiVis;
+						cap = statusNames.length;
+						break;
+					case 'rest':
+						statusNames = restNames;
+						statusNames_out = restNames_out;
+						statusIcons = restIcons;
+						statusOutput = restNames_out;
+						statusOverlap = restOverlap;
+						statusVis = restVis;
+						cap = statusNames.length;
+						break;
+					case 'toilets':
+						cap = 1;
+						break;
+					case 'tram-lines':
+						statusNames = tramNums;
+						cap = statusNames.length;
+						break;
+					case 'tram-stops':
+						cap = 1;					
 				}
 
 				for (j = 0; j < cap; j++) {
-					var statusName, statusIconCode, statusIcon, statusName_out, statuslap;
-					if (layerName === 'tram') {
-						statusName = "Tram Routes";
-						statusIconCode = '\uf238';
-						statusName_out = statusName;
+					var statusName, statusIcon, statusName_out, statuslap, vis;
+					if (layerName === 'toilets') {
+						// Public toilets layer
+						map.addLayer({
+							id: 'toilets',
+							type: 'symbol',
+							source: {
+								type: 'vector',
+								url: layerUrl
+							},
+							'source-layer': layerSource,
+							'paint': {
+								'icon-opacity': 0.6
+          					},
+							'layout': {
+								'icon-allow-overlap': true,
+								'visibility': 'none',
+								'icon-image': 'new-toilet'
+							}
+						});
+					} else if (layerName === 'tram-lines') {
+						// tram lines layer
+						statusName = statusNames[j];
 
 						map.addLayer({
-						id: statusName_out,
-						type: 'line',
-						source: {
-							type: 'vector',
-							url: layerUrl
-						},
-						'source-layer': layerSource,
-						'paint': {
-							'line-color': '#F7455D',
-							'line-width': 2
-						},
-						'filter': ['==', 'RTPATHDESC', 'LR006_1_065']
+							id: statusName,
+							type: 'line',
+							source: {
+								type: 'vector',
+								url: layerUrl
+							},
+							'source-layer': layerSource,
+							'paint': {
+								'line-color': tramCol[j],
+								'line-offset': tramOff[j],
+								'line-width': 3,
+								'line-opacity': 1
+          					},
+							'layout': {
+								'visibility': 'none'
+							},
+							'filter': ['==', layerAttr, statusName]
 						});
-						map.on('click', statusName_out, function(e) {
-							// console.log('Hellow World!');
-							console.log(e.features[0]);
-							
-							// var str = e.features[0].prpperties;
-							// console.log(str.status);
-							// var str1 = str.address;
-							// console.log(str);
-							
-							new mapboxgl.Popup()
-							// the script in step 3 below must go in here
-							.setLngLat(e.lngLat)
-							.setHTML(e.features[0].properties.Street_add+' <br/>'+'(' + e.features[0].properties.Seating_ty + ')')
-							.addTo(map)
+					} else if (layerName === 'tram-stops') {
+						// tram stops layer
+						map.addLayer({
+							id: 'tram',
+							type: 'symbol',
+							source: {
+								type: 'vector',
+								url: layerUrl
+							},
+							'source-layer': layerSource,
+							'layout': {
+								'icon-allow-overlap': true,
+								'visibility': 'none',
+								'icon-image': 'new-rail-light'
+							},
+							'paint': {
+								'icon-opacity': 0.6
+							}
 						});
 					} else {
+						// all other
 						statusName = statusNames[j];
-						statusIconCode = statusIconCodes[j];
 						statusIcon = statusIcons[j];
 						statusName_out = statusNames_out[j];
-						statuslap = statusOverlap[j]
+						statuslap = statusOverlap[j];
+						vis = statusVis[j];
 
 						map.addLayer({
-						id: statusName_out,
-						type: 'symbol',
-						source: {
-							type: 'vector',
-							url: layerUrl
-						},
-						'source-layer': layerSource,
-						'layout': {
-							'icon-allow-overlap': statuslap,
-							'icon-image': ['concat', statusIcon, '-15']
-						},
-						'filter': ['==', layerAttr, statusName]
+							id: statusName_out,
+							type: 'symbol',
+							source: {
+								type: 'vector',
+								url: layerUrl
+							},
+							'source-layer': layerSource,
+							'layout': {
+								'icon-allow-overlap': statuslap,
+								'visibility': vis,
+								'icon-image': statusIcon
+							},
+							'filter': ['==', layerAttr, statusName]
 						});
-						map.on('click', statusName_out, function(e) {
-							if(e.features[0].sourceLayer == 'InfoVisual-17q3aw'){
+
+						//pop-up
+                        map.on('click', statusName_out, function(e) {
+                            if(e.features[0].sourceLayer == 'POI_Reclassifiedl-57uvpr'){
+                                console.log(e.features[0]);
+								var str = e.features[0].properties.location;
+
+								
+								// var str_temp = str.replace(/'/g, '"');
+								// var str_new = str_temp.replace(/None/gi, '""');
+								// console.log(e.features[0]);
+								// var obj = JSON.parse(str_new);
+								// if(e.features[0].properties.image_url==""){
+								// 	new mapboxgl.Popup()
+								// 	// the script in step 3 below must go in here
+								// 	.setLngLat(e.lngLat)
+								// 	.setHTML('<img src="img/no image found.jpg" width="200" height="200">'+'<br>'+
+								// 	'<h3>'+e.features[0].properties.Feature_Na+'</h3>'+
+								// 	'<h2>'+e.features[0].properties.rating+'</h2>'+
+								// 	'<p>Address: '+obj.display_address+'</p>'+
+								// 	'<p>Phone: '+e.features[0].properties.display_ph+'</p>')
+								// 	.addTo(map)
+								// }else{
+								// 	console.log(e.features[0].properties.image_url)
+								// 	new mapboxgl.Popup()
+								// 	// the script in step 3 below must go in here
+								// 	.setLngLat(e.lngLat)
+								// 	.setHTML('<img src="'+ e.features[0].properties.image_url + '" width="200" height="200"'+'<br>'+
+								// 	'<h3>'+e.features[0].properties.Feature_Na+'</h3>'+
+								// 	'<h2>'+e.features[0].properties.rating+'</h2>'+
+								// 	'<p>Address: '+obj.display_address+'</p>'+
+								// 	'<p>Phone: '+e.features[0].properties.display_ph+'</p>')
+								// 	.addTo(map)
+								// }
+								if(str!=""){
+									var arr_1 = str.split("[");
+									var arr_2 = arr_1[1].split("]");
+									var address = arr_2[0].replace(/'/g, '');
+									if(e.features[0].properties.image_url==""){
+										new mapboxgl.Popup()
+										// the script in step 3 below must go in here
+										.setLngLat(e.lngLat)
+										.setHTML('<img src="img/no image found.jpg" width="200" height="200">'+'<br>'+
+										'<h3>'+e.features[0].properties.Feature_Na+'</h3>'+
+										'<h2>'+e.features[0].properties.rating+'</h2>'+
+										'<p>Address: '+address+'</p>'+
+										'<p>Phone: '+e.features[0].properties.display_ph+'</p>')
+										.addTo(map)
+									}else{
+										console.log(e.features[0].properties.image_url)
+										new mapboxgl.Popup()
+										// the script in step 3 below must go in here
+										.setLngLat(e.lngLat)
+										.setHTML('<img src="'+ e.features[0].properties.image_url + '" width="200" height="200"'+'<br>'+
+										'<h3>'+e.features[0].properties.Feature_Na+'</h3>'+
+										'<h2>'+e.features[0].properties.rating+'</h2>'+
+										'<p>Address: '+address+'</p>'+
+										'<p>Phone: '+e.features[0].properties.display_ph+'</p>')
+										.addTo(map)
+									}
+								}
+								else{
+									if(e.features[0].properties.image_url==""){
+										new mapboxgl.Popup()
+										// the script in step 3 below must go in here
+										.setLngLat(e.lngLat)
+										.setHTML('<img src="img/no image found.jpg" width="200" height="200">'+'<br>'+
+										'<h3>'+e.features[0].properties.Feature_Na+'</h3>'+
+										'<h2>'+e.features[0].properties.rating+'</h2>'+
+										'<p>Address: Sorry, no address available</p>'+
+										'<p>Phone: '+e.features[0].properties.display_ph+'</p>')
+										.addTo(map)
+									}else{
+										console.log(e.features[0].properties.image_url)
+										new mapboxgl.Popup()
+										// the script in step 3 below must go in here
+										.setLngLat(e.lngLat)
+										.setHTML('<img src="'+ e.features[0].properties.image_url + '" width="200" height="200"'+'<br>'+
+										'<h3>'+e.features[0].properties.Feature_Na+'</h3>'+
+										'<h2>'+e.features[0].properties.rating+'</h2>'+
+										'<p>Address: Sorry, no address available</p>'+
+										'<p>Phone: '+e.features[0].properties.display_ph+'</p>')
+										.addTo(map)
+									}
+								}
+								
+                            }
+
+                            else if(e.features[0].sourceLayer == 'Restaurant_ver-7ysd8o'){
 								console.log(e.features[0]);
-								new mapboxgl.Popup()
-								// the script in step 3 below must go in here
-								.setLngLat(e.lngLat)
-								.setHTML('<p>Name: </p>'+e.features[0].properties.Trading_na+
-								'<p>Address: </p>'+e.features[0].properties.Street_add+
-								'<p>Seat Type: </p>'+e.features[0].properties.Seating_ty)
-								.addTo(map)
+								// var trading_name=e.features[0].properties.Trading name;
+								if(e.features[0].properties.image_url==""){
+                                    new mapboxgl.Popup()
+                                    // the script in step 3 below must go in here
+                                    .setLngLat(e.lngLat)
+                                    .setHTML('<img src="img/no image found.jpg" width="200" height="200">'+'<br>'+
+                                    '<h3>'+e.features[0].properties["Trading name"]+'</h3>'+
+                                    '<h2>'+e.features[0].properties.rating+'</h2>'+
+                                    '<p>Address: '+e.features[0].properties["Street address"]+'</p>'+
+                                    '<p>Phone: '+e.features[0].properties.display_ph+'</p>')
+                                    .addTo(map)
+                                }else{
+                                    console.log(e.features[0].properties.image_url)
+                                    new mapboxgl.Popup()
+                                    // the script in step 3 below must go in here
+                                    .setLngLat(e.lngLat)
+                                    .setHTML('<img src="'+ e.features[0].properties.image_url + '" width="200" height="200"'+'<br>'+
+                                    '<h3>'+e.features[0].properties["Trading name"]+'</h3>'+
+                                    '<h2>'+e.features[0].properties.rating+'</h2>'+
+                                    '<p>Address: '+e.features[0].properties["Street address"]+'</p>'+
+                                    '<p>Phone: '+e.features[0].properties.display_phone+'</p>')
+                                    .addTo(map)
+								}
 							}
-							else{
-								console.log(e.features[0])
-								new mapboxgl.Popup()
-								// the script in step 3 below must go in here
-								.setLngLat(e.lngLat)
-								// .setHTML(e.features[0].properties.Street_add+' <br/>'+e.features[0].properties.Seating_ty)
-								.setHTML('<p>Name: </p>'+e.features[0].properties.Feature_Na+
-								'<p>Theme: </p>'+e.features[0].properties.Theme+
-								'<p>Sub_Theme: </p>'+e.features[0].properties.Sub_Theme)
-								.addTo(map)
-							}
-							
-						});
-					}
+                        });
 
-					// button
-					var link = document.createElement('a');
-					link.href = '#';
-					link.className = 'active';
-					link.textContent = statusName_out;
-					link.setAttribute('symbol', statusIconCode);
-					if (link.className === 'active') {
-						link.style.backgroundColor = buttonColor;
-					}
-					link.defaultColor = buttonColor;
-
-					var layers = document.getElementById('button');
-					layers.appendChild(link);
-
-					link.onclick = function(e) {
-						let clickedLayer = this.textContent;
-						e.preventDefault();
-						e.stopPropagation();
-
-						var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-						if (visibility !== 'none') {
-						map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-						this.className = '';
-						this.style.backgroundColor = "#fff";
-						} else {
-						this.className = 'active';
-						map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-						this.style.backgroundColor = this.defaultColor;
-						}
 					}
 				}
 			}
-			//pop-up
-
-			// map.on('click', statusName_out, function(e) {
-			// 	// console.log('Hellow World!');
-			// 	if(layerSource == 'InfoVisual-17q3aw'){
-			// 		console.log(e.features[0]);
-			// 		new mapboxgl.Popup()
-			// 		// the script in step 3 below must go in here
-			// 		.setLngLat(e.lngLat)
-			// 		.setHTML(e.features[0].properties.Street_add+' <br/>'+e.features[0].properties.Seating_ty)
-			// 		.addTo(map)
-			// 	}
-			// 	else{
-			// 		console.log(layerSource)
-			// 		new mapboxgl.Popup()
-			// 		// the script in step 3 below must go in here
-			// 		.setLngLat(e.lngLat)
-			// 		.setHTML(e.features[0].properties.Street_add+' <br/>'+e.features[0].properties.Seating_ty)
-			// 		.addTo(map)
-			// 	}
-				
-			// });
 		});
 
-		map.addControl(new mapboxgl.NavigationControl());
+		var set1 = ["topattraction", "museum", "history", "shopping", "sight", "parks", "zoo"];
+		var set2 = ["topeateries", "restaurant", "pub", "hotel"];
+		var set3 = ["tram", "train", "taxi"];
+		var set4 = ["visitorcentre", "toilets"];
 
+		// show/hide layers with respect to category
+		var btns = document.getElementsByClassName("btn");
+		for (var i = 0; i < btns.length; i++) {
+			btns[i].addEventListener("click",
+				function(e) {
+					let clickedLayer = this.value;
+					e.preventDefault();
+					e.stopPropagation();
+					// Adjust button colours accordingly
+					// If: the layer is not active; else: layer is already active
+					if (this.className === "btn") {
+						this.className += " active";
+						if (set1.includes(clickedLayer) === true) {
+							this.style.backgroundColor = "#1b9e77";
+						} else if (set2.includes(clickedLayer) === true) {
+							this.style.backgroundColor = "#d95f02";
+						} else if (set3.includes(clickedLayer) === true) {
+							this.style.backgroundColor = "#7570b3";
+						} else {
+							this.style.backgroundColor = "#e7298a";
+						}
+						this.style.color = "#ffffff";
+					} else {
+						this.className = this.className.replace(" active", "");
+						this.style.backgroundColor = "#ffffff";
+						this.style.color = "#404040";
+					}
 
+					// toggle the visiblity of the layer
+					var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+					if (visibility !== 'none') {
+						map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+					} else {
+						map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+					}
+				}
+			);
+			// hover effect on the buttons
+			btns[i].addEventListener("mouseenter",
+				function(event) {
+					if (this.className !== "btn") {
+						event.target.style.opacity = 0.8;
+					} else {
+						event.target.style.backgroundColor = "#cccccc";
+						event.target.style.color = "#000000";
+						event.target.style.opacity = 0.6;
+					}
+				}
+			);
+			btns[i].addEventListener("mouseleave",
+				function(event) {
+					if (this.className !== "btn") {
+						event.target.style.opacity = 1;
+					} else {
+						event.target.style.backgroundColor = "#ffffff";
+						event.target.style.color = "#404040";
+						event.target.style.opacity = 1;
+					}
+				}
+			);
+		}
 
+		// show zoom and navigation control
+		var nav = new mapboxgl.NavigationControl();
+		map.addControl(nav, 'bottom-left');		
+
+		// show tram routes when a tram station is clicked
+		map.on('click', 'tram', function(event) {
+			var routes = event.features[0].properties.ROUTEUSSP.split(",").sort();
+			var test = "";
+			for (var i = 0; i < routes.length; i++) {
+				idx = tramNums.findIndex(route => route === routes[i])
+				test += '<div class="input-color"><input type="text" value=' + routes[i] +' /><div class="color-box" style="background-color: ' + tramCol[idx] + ';"></div></div>'
+				map.setLayoutProperty(routes[i], 'visibility', 'visible');
+			}
+
+			new mapboxgl.Popup()
+			.setLngLat(event.lngLat)
+			.setHTML('<b>' + event.features[0].properties.STOP_NAME+ '</b><br>' + test)
+			.addTo(map);
+		});
+
+		// show tram number on hover		
+		for (var i = 0; i < tramNums.length; i++) {
+			map.on('click', tramNums[i], function(event) {
+				new mapboxgl.Popup()
+				.setLngLat(event.lngLat)
+				.setHTML('<b>' + event.features[0].properties.PUBDESCSHT + '</b>')
+				.addTo(map);
+			});			
+		}
+
+		// refresh tram lines when reset is clicked
+		function refreshTram(){
+			for (var i = 0; i < tramNums.length; i++) {
+				map.setLayoutProperty(tramNums[i], 'visibility', 'none');
+			}
+		} 
+
+		// refresh page when reset is clicked
+		function refreshPage(){
+			window.location.reload();
+		} 
+		
     </script>
 
   </body>
 </html>
-
-
-		
