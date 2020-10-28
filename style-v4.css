@@ -1,0 +1,111 @@
+#map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 80%;
+	background: transparent;
+}
+
+.map-overlay {
+	position: absolute;
+	background: #f9f9f9;
+	margin-right: 20px;
+	font-family: Arial, sans-serif;
+	overflow: auto;
+	border-radius: 3px;
+}
+
+#title {
+	top: 0;
+	left: 81%;
+	height: 98%;
+	margin-top: 10px;
+	width: 270px;
+}
+
+p {
+	margin: 10px;
+	margin-bottom: 3px;
+	font-size: 1em;
+	text-align: left;
+}
+
+.p2 {
+	margin: 0px;
+	margin-bottom: 3px;
+	font-size: 1em;
+	text-align: left;
+}
+
+.btn-group button {
+	color: #404040;
+	padding: 8px 24px;
+	cursor: pointer;
+	width: 200px;
+	display: block;
+	margin-left: 10px;
+	font-size: 13px;
+	border: 1px solid rgba(0, 0, 0, 0.25);
+	background: #ffffff;
+	text-align: left;
+}
+
+.btn-group button:not(:last-child) {
+	border-bottom: none; /* Prevent double borders */
+}
+
+.btn-group button.active {
+	background-color: #1b9e77;
+	color: #ffffff;
+}
+
+.mapboxgl-popup {
+	max-width: 200px;
+	cursor: pointer;
+}
+
+.mapboxgl-popup-content {
+	text-align: left;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.input-color {
+	position: relative;
+	border: none;
+}
+.input-color input {
+	padding-left: 20px;
+	border: none;
+}
+.input-color .color-box {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    background-color: #ccc;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}
+
+
+.pop-up-info {
+	position: absolute;
+	background: rgba(255, 255, 255, 0.8);
+	font-family: Arial, sans-serif;
+	overflow: auto;
+	border-radius: 10px;
+}
+
+.marker-youarehere {
+	background-image: url('img/pin-you-are-here.png');
+	background-size: cover;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+}
+
+.mapbox-directions-component{
+	top:90px;
+	left:15px;
+} 
+

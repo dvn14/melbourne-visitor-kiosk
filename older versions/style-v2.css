@@ -1,0 +1,121 @@
+#map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 80%;
+}
+
+.map-overlay {
+	position: absolute;
+	background: rgba(255, 255, 255, 0.8);
+	margin-right: 20px;
+	font-family: Arial, sans-serif;
+	overflow: auto;
+	border-radius: 3px;
+}
+
+#title {
+	top: 0;
+	left: 81%;
+	height: 98%;
+	margin-top: 10px;
+	width: 250px;
+}
+
+p {
+	margin: 10px;
+	margin-bottom: 3px;
+	font-size: 1em;
+	text-align: left;
+}
+
+.btn-group button {
+	color: #404040;
+	padding: 8px 24px;
+	cursor: pointer;
+	width: 200px;
+	display: block;
+	margin-left: 10px;
+	font-size: 13px;
+	border: 1px solid rgba(0, 0, 0, 0.25);
+	background: #ffffff;
+	text-align: left;
+}
+
+.btn-group button:not(:last-child) {
+	border-bottom: none; /* Prevent double borders */
+}
+
+.btn-group button.active {
+	background-color: #1b9e77;
+	color: #ffffff;
+}
+
+
+.pop-up-info {
+	position: absolute;
+	background: rgba(255, 255, 255, 0.8);
+	font-family: Arial, sans-serif;
+	overflow: auto;
+	border-radius: 10px;
+}
+
+.marker-youarehere {
+	background-image: url('img/pin-you-are-here.png');
+	background-size: cover;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.marker-attraction {
+	background-image: url('img/map-marker-magenta.png');
+	background-size: cover;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.marker-eateries {
+	background-image: url('img/map-marker-orange.png');
+	background-size: cover;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.marker-public-transportation {
+	background-image: url('img/map-marker-blue.png');
+	background-size: cover;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.marker-public-facilities {
+	background-image: url('img/map-marker-green.png');
+	background-size: cover;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.mapboxgl-popup {
+	max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.mapbox-directions-component{
+	top:90px;
+	left:15px;
+} 
+

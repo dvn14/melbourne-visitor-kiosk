@@ -1,0 +1,257 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+	<meta charset="utf-8" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+  
+  </head>
+  
+
+  
+  <body>
+	<!-- Mapbox Direction Panel -->
+	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+	<link
+		rel="stylesheet"
+		href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
+		type="text/css"
+	/>
+    
+	
+	<!-- Mapbox Map Panel -->
+	<div id="map"></div>
+	
+	
+	<!-- Top Filter Menu -->
+	<div class="map-overlay" id="title">
+		<!-- Title and Greeting -->
+		<p> 
+			<font style = "font-weight:bold"> Welcome to Melbourne</font> 
+			<font style = "font-size:13px">You are at Southern Cross station</font>
+		</p>
+		
+		<!-- Filter Menu -->
+		<table style="margin-left:10px; margin-right:10px;font-size:13px">
+			<tr>
+			  <td style="width: 24%;">
+				<div id="filter01">
+				  <img src="img/map-marker-magenta.png" style="height:12px;">
+				  <label>Attraction:</label>
+				  <select id="attraction" style="width: 100%;">
+					<option value="topattraction">Top attraction</option>
+					<option value="museum">Museum & art gallery</option>
+					<option value="history">History & heritage</option>
+					<option value="shopping">Shopping centers</option>
+					<option value="sight">Sight & landmarks</option>
+					<option value="patks">Parks & gardens</option>
+					<option value="zoo">Zoo & Aquariums</option>
+					<option value="visitorcentre">Visitor information centers</option>
+		
+				  </select>
+				</div>
+			  </td>
+			  <td style="width: 24%;">
+				<div id="filter02">
+				  <img src="img/map-marker-orange.png" style="height:12px;">
+				  <label>Eateries & accommodation:</label>
+				  <select id="eateries" style="width: 100%;" vtype="parent">
+					<option value="topattraction" vtype="child">Top eateries</option>
+					<option value="restaurant" vtype="child">Restaurants & cafes</option>
+					<option value="pub" vtype="child">Pubs</option>
+					<option value="hotel" vtype="child">Hotels & lodges</option>
+				  </select>
+				</div>
+			  </td>
+			  <td style="width: 24%;">
+				<div id="filter03">
+				  <img src="img/map-marker-blue.png" style="height:12px;" id='test'>
+				  <label>Public transportation:</label>
+				  <select id="transportation" style="width: 100%;">
+					<option value="default"></option>
+					<option value="citycircleroute">City circle tram routes</option>
+					<option value="tramstops">Tram stops</option>
+					<option value="trainstations">Train stations</option>
+					<option value="taxiranks">Taxi Ranks</option>
+				  </select>
+				</div>
+			  </td>
+			  <td style="width: 24%;">
+				<div id="filter04">
+				  <img src="img/map-marker-green.png" style="height:12px;">
+				  <label>Public facilities:</label>
+				  <select id="facility" style="width: 100%;">
+					<option value="default"></option>
+					<option value="toilets">Toilets</option>
+					<option value="policestations">Police stations</option>
+					<option value="hospitals">Hospitals</option>
+				  </select>
+				</div>
+			  </td>
+			  <td style="width: 4%; vertical-align:bottom">
+				<button>Reset</button>
+			  </td>
+			</tr>
+		  </table>	
+	</div>
+    
+		
+	
+    <script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2aW52aW51biIsImEiOiJja2VrNHRla3kwZDkyMnl0Nng4Nno1cGJmIn0.pAJqAvlrWzR-YyBY9YCYIg';
+
+		var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/devinvinun/ckg8yyuy50hn519nju5tthh8i',
+			center: [144.96, -37.81],
+			zoom: 12.5
+		});
+
+		//Add You-Are-Here Marker
+		var yah_marker = document.createElement('div');
+		yah_marker.className = 'marker-youarehere';
+		new mapboxgl.Marker(yah_marker)
+			.setLngLat([144.952776,-37.8181])
+			.addTo(map);
+
+		map.on('load', function() {
+			var layerNames = ['poi', 'rest', 'tram'];
+			var layerUrls = ['mapbox://penguinc2h6.7m71ym0m', 'mapbox://penguinc2h6.d31bqmxn', 'mapbox://penguinc2h6.3hwm8bk2'];
+			var layerSources = ['POI-08he71', 'InfoVisual-17q3aw', 'TramRoute-3sb9xp'];
+			var buttonColors = ['#3887be', '#33a02c', '#e31a1c'];
+			var layerTypes = ['symbol', 'symbol', 'line'];
+			var layerAttrs = ['Sub_Theme', 'Industry__', 'OBJECTID'];
+
+			var poiNames = ['Cinema', 'Retail', 'Art Gallery/Museum', 'Aquarium'];
+			var poiIconCodes = ['\uf03d', '\uf07a', '\uf19c', '\uf1b0'];
+			var poiIcons = ['cinema', 'grocery', 'town-hall', 'veterinary'];
+			var poiNames_out = ['Cinema', 'shopping', 'museum', 'zoo'];
+			var poiOverlap = [true, true, true, true]
+
+			var restNames = ['Cafes and Restaurants', 'Pubs, Taverns and Bars', 'Accommodation'];
+			var restNames_out = ['restaurant', 'pub', 'hotel'];
+			var restIconCodes = ['\uf0f5', '\uf000', '\uf236'];
+			var restIcons = ['restaurant', 'bar', 'lodging']
+			var restOverlap = [false, false, false]
+
+			var statusNames, statusIconCodes, statusIcons, statusOutput, cap, statusNames_out, statusOverlap;
+
+			for (i = 0; i < layerNames.length; i++) {
+				var layerName = layerNames[i];
+				var layerUrl = layerUrls[i];
+				var layerSource = layerSources[i];
+				var buttonColor = buttonColors[i];
+				var layerType = layerTypes[i];
+				var layerAttr = layerAttrs[i];
+				switch (layerName) {
+				case 'poi':
+					statusNames = poiNames;
+					statusNames_out = poiNames_out;
+					statusIconCodes = poiIconCodes;
+					statusIcons = poiIcons;
+					statusOutput = poiNames_out;
+					statusOverlap = poiOverlap;
+					cap = statusNames.length;
+					break;
+				case 'rest':
+					statusNames = restNames;
+					statusNames_out = restNames_out;
+					statusIconCodes = restIconCodes;
+					statusIcons = restIcons;
+					statusOutput = restNames_out;
+					statusOverlap = restOverlap;
+					cap = statusNames.length;
+					break;
+				case 'tram':
+					cap = 1;
+				}
+
+				for (j = 0; j < cap; j++) {
+					var statusName, statusIconCode, statusIcon, statusName_out, statuslap;
+					if (layerName !== 'tram') {
+						statusName = statusNames[j];
+						statusIconCode = statusIconCodes[j];
+						statusIcon = statusIcons[j];
+						statusName_out = statusNames_out[j];
+						statuslap = statusOverlap[j]
+
+						map.loadImage(
+							'https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png',
+							function(error, image) {
+								if (error) throw error;
+								map.addImage('attraction', image);
+						});
+
+						map.addLayer({
+							id: statusName_out,
+							type: 'symbol',
+							source: {
+								type: 'vector',
+								url: layerUrl
+							},
+							'source-layer': layerSource,
+							'layout': {
+								'icon-allow-overlap': statuslap,
+								'icon-image': ['concat', statusIcon, '-15'],
+								'visibility': 'none'
+							},
+							'filter': ['==', layerAttr, statusName]
+						});
+					}
+						//map.setLayoutProperty(statusName_out, 'visibility', 'none');
+				
+				}
+			}
+		});
+
+		eateries.onclick = function(e) {
+			let clickedLayer = this.value;
+			console.log(this.value);
+			e.preventDefault();
+			e.stopPropagation();
+
+			var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+			if (visibility !== 'none') {
+				map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+				//this.className = '';
+				//this.style.backgroundColor = "#fff";
+			} else {
+				map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+				//this.className = 'active';
+				//this.style.backgroundColor = this.defaultColor;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+		};
+
+		attraction.onclick = function(e) {
+			let clickedLayer = this.value;
+			console.log(this.value);
+			e.preventDefault();
+			e.stopPropagation();
+
+			var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+			if (visibility !== 'none') {
+				map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+				//this.className = '';
+				//this.style.backgroundColor = "#fff";
+			} else {
+				map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+				//this.className = 'active';
+				//this.style.backgroundColor = this.defaultColor;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+		};
+
+		map.addControl(new mapboxgl.NavigationControl());
+		
+		
+		
+		
+		
+    </script>
+
+  </body>
+</html>
