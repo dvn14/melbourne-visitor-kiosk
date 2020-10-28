@@ -4,7 +4,7 @@
 	<meta charset="utf-8" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
 	<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet">
-    <link href="style-v3.css" rel="stylesheet">
+    <link href="style-v4.css" rel="stylesheet">
   
   </head>
   
@@ -290,92 +290,52 @@
 						});
 
 						map.on('click', statusName_out, function(e) {
-							var phone = e.features[0].properties.display_phone;
-							if(phone == ""){
-								phone = "Sorry, no phone number available."
+							var image = '<img src="img/no image found.jpg" width="200" height="200"><br>';
+							if (e.features[0].properties.image_url !== "") {
+								image = '<img src="' + e.features[0].properties.image_url + '" width="200" height="200"<br>';
 							}
-                            if(e.features[0].sourceLayer == 'POIs_vFINAL-bkjmqv'){
-                                console.log(e.features[0]);
-                                var str = e.features[0].properties.location;
-                                if(str!=""){
-                                    var arr_1 = str.split("[");
-                                    var arr_2 = arr_1[1].split("]");
-                                    var address = arr_2[0].replace(/'/g, '');
-                                    if(e.features[0].properties.image_url==""){
-                                        new mapboxgl.Popup()
-                                        // the script in step 3 below must go in here
-                                        .setLngLat(e.lngLat)
-                                        .setHTML('<img src="img/no image found.jpg" width="200" height="200">'+'<br>'+
-                                        '<h2>'+e.features[0].properties.Feature_Na+'</h2>'+
-                                        '<p2><b>Rating</b>: </p2><h2 style="display: inline;">'+e.features[0].properties.rating+'</h2>/5<br>'+
-                                        '<p2><b>Address</b>: '+address+'</p2><br>'+
-                                        '<p2><b>Phone</b>: '+phone+'</p2>')
-                                        .addTo(map)
-                                    }else{
-                                        console.log(e.features[0].properties.image_url)
-                                        new mapboxgl.Popup()
-                                        // the script in step 3 below must go in here
-                                        .setLngLat(e.lngLat)
-                                        .setHTML('<img src="'+ e.features[0].properties.image_url + '" width="200" height="200"'+'<br>'+
-                                        '<h2>'+e.features[0].properties.Feature_Na+'</h2>'+
-                                        '<p2><b>Rating</b>: </p2><h2 style="display: inline;">'+e.features[0].properties.rating+'</h2>/5<br>'+
-                                        '<p2><b>Address</b>: '+address+'</p2><br>'+
-                                        '<p2><b>Phone</b>: '+phone+'</p2>')
-                                        .addTo(map)
-                                    }
-                                }
-                                else{
-                                    if(e.features[0].properties.image_url==""){
-                                        new mapboxgl.Popup()
-                                        // the script in step 3 below must go in here
-                                        .setLngLat(e.lngLat)
-                                        .setHTML('<img src="img/no image found.jpg" width="200" height="200">'+'<br>'+
-                                        '<h2>'+e.features[0].properties.Feature_Na+'</h2>'+
-                                        '<p2><b>Rating</b>: </p2><h2 style="display: inline;">'+e.features[0].properties.rating+'</h2>/5<br>'+
-                                        '<p2><b>Address</b>: Sorry, no address available</p2><br>'+
-                                        '<p2><b>Phone</b>: '+phone+'</p2>')
-                                        .addTo(map)
-                                    }else{
-                                        console.log(e.features[0].properties.image_url)
-                                        new mapboxgl.Popup()
-                                        // the script in step 3 below must go in here
-                                        .setLngLat(e.lngLat)
-                                        .setHTML('<img src="'+ e.features[0].properties.image_url + '" width="200" height="200"'+'<br>'+
-                                        '<h2>'+e.features[0].properties.Feature_Na+'</h2>'+
-                                        '<p2><b>Rating</b>: </p2><h2 style="display: inline;">'+e.features[0].properties.rating+'</h2>/5<br>'+
-                                        '<p2><b>Address</b>: Sorry, no address available</p2><br>'+
-                                        '<p2><b>Phone</b>: '+phone+'</p2>')
-                                        .addTo(map)
-                                    }
-                                }
-                                
-                            }
 
-                            else if(e.features[0].sourceLayer == 'Restaurant_ver-7ysd8o'){
+							var rating = '';
+							if (e.features[0].properties.classification !== "Railway station") {
+								if (e.features[0].properties.rating === "") {
+									rating = '<p2><b>Rating</b>: Sorry, rating not available</p2><br>';
+								} else {
+									rating = '<p2><b>Rating</b>: </p2><h2 style="display: inline;">'+e.features[0].properties.rating+'</h2>/5<br>';
+								}									
+							}
+
+							var phone = e.features[0].properties.display_phone;
+							if(phone === ""){
+								phone = "Sorry, phone number not available.";
+							}
+							var phone_num = '<p2><b>Phone</b>: ' + phone + '</p2>';
+
+                            if(e.features[0].sourceLayer === 'POIs_vFINAL-bkjmqv'){
                                 console.log(e.features[0]);
-                                // var trading_name=e.features[0].properties.Trading name;
-                                if(e.features[0].properties.image_url==""){
-                                    new mapboxgl.Popup()
-                                    // the script in step 3 below must go in here
+								var str = e.features[0].properties.location;
+								var address = '<p2><b>Address</b>: Sorry, address not available</p2><br>';
+								if (str !== "") {
+									var arr_1 = str.split("[");
+                                    var arr_2 = arr_1[1].split("]");
+									var new_address = arr_2[0].replace(/'/g, '');
+									address = '<p2><b>Address</b>: '+new_address+'</p2><br>';
+								}
+
+								var title = '<h2>'+e.features[0].properties.Feature_Na+'</h2>';
+
+								new mapboxgl.Popup()
+                                        .setLngLat(e.lngLat)
+                                        .setHTML(image + title + rating + address + phone_num)
+                                        .addTo(map)                                
+                            } else if(e.features[0].sourceLayer === 'Restaurant_ver-7ysd8o'){
+                                console.log(e.features[0]);
+								var title = '<h2>' + e.features[0].properties["Trading name"] + '</h2>';
+								var address = '<p2><b>Address</b>: ' + e.features[0].properties["Street address"] + '</p2><br>';
+
+								new mapboxgl.Popup()
                                     .setLngLat(e.lngLat)
-                                    .setHTML('<img src="img/no image found.jpg" width="200" height="200">'+'<br>'+
-                                    '<h2>'+e.features[0].properties["Trading name"]+'</h2>'+
-                                    '<p2><b>Rating</b>: </p2><h2 style="display: inline;">'+e.features[0].properties.rating+'</h2>/5<br>'+
-                                    '<p2><b>Address</b>: '+e.features[0].properties["Street address"]+'</p2><br>'+
-                                    '<p2><b>Phone</b>: '+phone+'</p2>')
+                                    .setHTML(image + title + rating + address + phone_num)
                                     .addTo(map)
-                                }else{
-                                    console.log(e.features[0].properties.image_url)
-                                    new mapboxgl.Popup()
-                                    // the script in step 3 below must go in here
-                                    .setLngLat(e.lngLat)
-                                    .setHTML('<img src="'+ e.features[0].properties.image_url + '" width="200" height="200"'+'<br>'+
-                                    '<h2>'+e.features[0].properties["Trading name"]+'</h2>'+
-                                    '<p2><b>Rating</b>: </p2><h2 style="display: inline;">'+e.features[0].properties.rating+'</h2>/5<br>'+
-                                    '<p2><b>Address</b>: '+e.features[0].properties["Street address"]+'</p2><br>'+
-                                    '<p2><b>Phone</b>: '+phone+'</p2>')
-                                    .addTo(map)
-                                }
                             }
                         });
 					}
@@ -401,16 +361,6 @@
 					// If: the layer is not active; else: layer is already active
 					if (this.className === "btn") {
 						this.className += " active";
-						/*
-						if (set1.includes(clickedLayer) === true) {
-							this.style.backgroundColor = "#ff5c00";
-						} else if (set2.includes(clickedLayer) === true) {
-							this.style.backgroundColor = "#ffc425";
-						} else if (set3.includes(clickedLayer) === true) {
-							this.style.backgroundColor = "#2039cf";
-						} else {
-							this.style.backgroundColor = "#e7298a";
-						}*/
 						this.style.backgroundColor = "#969696";
 						this.style.color = "#ffffff";
 					} else {
