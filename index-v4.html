@@ -34,6 +34,9 @@
 			<img src="img/pin-you-are-here.png" style="height:12px;" id='test'>
 		  	<font style="font-size:13px">You are at <font style="font-weight:bold">Southern Cross station</font></font>
 		</p>
+		<p>
+			<font style="font-size:13px">Select icons for more detail</font>
+		</p>
 
 		<!-- Attractions button class -->
 		<p>
@@ -101,7 +104,7 @@
 		// loading basemap
 		var map = new mapboxgl.Map({
 			container: 'map',
-			style: 'mapbox://styles/penguinc2h6/ckglscl8m0ame1amsq2hcaau3/draft', 
+			style: 'mapbox://styles/penguinc2h6/ckglscl8m0ame1amsq2hcaau3/draft',
 			center: [144.956351,-37.8155],//[144.96, -37.81],
 			zoom: 13.5,
 			maxBounds: bounds
@@ -300,7 +303,9 @@
 								if (e.features[0].properties.rating === "") {
 									rating = '<p2><b>Rating</b>: Sorry, rating not available</p2><br>';
 								} else {
-									rating = '<p2><b>Rating</b>: </p2><h2 style="display: inline;">'+e.features[0].properties.rating+'</h2>/5<br>';
+									rating = '<p2><b>Rating</b>: </p2><h2 style="display: inline;">' + 
+												e.features[0].properties.rating + '</h2>/5   (' + 
+												e.features[0].properties.review_count + ' reviews)<br>';
 								}									
 							}
 
@@ -371,10 +376,16 @@
 
 					// toggle the visiblity of the layer
 					var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+					var alert = false;
 					if (visibility !== 'none') {
 						map.setLayoutProperty(clickedLayer, 'visibility', 'none');
 					} else {
 						map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+						alert = true
+					}
+
+					if (clickedLayer === "tram" && alert === true) {
+						window.alert("Select tram stop for passing routes");
 					}
 				}
 			);
@@ -473,8 +484,13 @@
 			var tmp = "";
 			for (var i = 0; i < routes.length; i++) {
 				idx = tramNums.findIndex(route => route === routes[i])
-				tmp += '<div class="input-color"><input type="text" value=' + routes[i] +' /><div class="color-box" style="background-color: ' + tramCol[idx] + ';"></div></div>'
-				map.setLayoutProperty(routes[i], 'visibility', 'visible');
+				tmp += '<div class="input-color"><input type="text" value=' + routes[i] + ' /><div class="color-box" style="background-color: ' + tramCol[idx] + ';"></div></div>';
+				if (map.getLayoutProperty(routes[i], 'visibility') !== 'visible') {
+					map.setLayoutProperty(routes[i], 'visibility', 'visible');
+				} else {
+					map.setLayoutProperty(routes[i], 'visibility', 'none');
+				}
+				
 			}
 
 			new mapboxgl.Popup()
