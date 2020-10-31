@@ -4,7 +4,7 @@
 	<meta charset="utf-8" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
 	<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet">
-    <link href="style-v4.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
   
   </head>
   
@@ -93,9 +93,6 @@
 	
     <script>
 		mapboxgl.accessToken = 'pk.eyJ1IjoicGVuZ3VpbmMyaDYiLCJhIjoiY2tleHNjZXNlMG5jcTJ1bWZ4NmgxYXU5cCJ9.f3hDqiQWGc6PU1VD89XmCg';
-		// old
-		// pk.eyJ1IjoiZGV2aW52aW51biIsImEiOiJja2VrNHRla3kwZDkyMnl0Nng4Nno1cGJmIn0.pAJqAvlrWzR-YyBY9YCYIg
-		// 'mapbox://styles/devinvinun/ckgnwk4y417uc1appmwnngsj6',
 
 		// zoom bounds
 		var bounds = [[144.891962,-37.850929],	// Southwest coordinates
@@ -104,7 +101,7 @@
 		// loading basemap
 		var map = new mapboxgl.Map({
 			container: 'map',
-			style: 'mapbox://styles/penguinc2h6/ckglscl8m0ame1amsq2hcaau3/draft',
+			style: 'mapbox://styles/penguinc2h6/ckglscl8m0ame1amsq2hcaau3',
 			center: [144.956351,-37.8155],//[144.96, -37.81],
 			zoom: 13.5,
 			maxBounds: bounds
